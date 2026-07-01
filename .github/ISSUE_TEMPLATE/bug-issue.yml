@@ -1,0 +1,137 @@
+name: Bug issue
+description: Report a bug related to the mod
+title: "[BUG]: "
+labels: ["bug"]
+assignees: ["Herobrot"]
+
+body:
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Checklist
+      description: Please confirm the following before submitting.
+      options:
+        - label: I searched existing issues and this bug has **not been reported before**
+          required: true
+        - label: I am using the **latest version** of the mod
+          required: true
+        - label: I have **NeoForge** for Minecraft 1.21.1 correctly installed
+          required: true
+        - label: I checked the [README.md](https://github.com/Herobrot/tieredneo/blob/1.21/README.md) and found no answer to my issue
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what is happening...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: I expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened instead?
+      placeholder: Instead, what happened was...
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Video
+      description: If applicable, add screenshots or a video link to help explain the problem.
+      placeholder: Drag and drop images here, or paste a video link...
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Crash Report / Log
+      description: |
+        Paste the full error log here. You can find it at:
+        - `.minecraft/logs/latest.log`
+        - `.minecraft/crash-reports/`
+
+        Tip: For long logs, use [mclo.gs](https://mclo.gs) or [Pastebin](https://pastebin.com) and paste the link.
+      render: text
+      placeholder: Paste your log here...
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod Version
+      placeholder: "e.g. v1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: neoforge-version
+    attributes:
+      label: NeoForge Version
+      placeholder: "e.g. 21.1.227"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: minecraft-version
+    attributes:
+      label: Minecraft Version
+      options:
+        - 1.21.1
+    validations:
+      required: true
+
+  - type: input
+    id: java-version
+    attributes:
+      label: Java Version
+      placeholder: "e.g. Java 21"
+    validations:
+      required: true
+
+  - type: textarea
+    id: mod-list
+    attributes:
+      label: Installed Mods
+      description: List all installed mods with their versions. You can also paste the contents of your `mods/` folder.
+      placeholder: |
+        - ModName - v1.0.0
+        - AnotherMod - v2.3.1
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Anything else we should know? Does it happen consistently? Does it conflict with a specific mod?
+      placeholder: Add any other context here...
+    validations:
+      required: false

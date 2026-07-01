@@ -1,0 +1,93 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for the mod
+title: "[FEATURE] "
+labels: ["enhancement"]
+assignees: ["Herobrot"]
+
+body:
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight Checklist
+      description: Please confirm the following before submitting.
+      options:
+        - label: I searched existing issues and this feature has **not been requested before**
+          required: true
+        - label: I am using the **latest version** of the mod
+          required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request Type
+      description: What kind of addition are you suggesting?
+      options:
+        - New feature
+        - Enhancement to existing feature
+        - Performance improvement
+        - Quality of life improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: A short and clear description of the feature you are requesting.
+      placeholder: Briefly describe the feature...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      description: Is this request related to a problem? Explain what the issue or limitation is that led you to suggest this.
+      placeholder: I find it frustrating when... / There is currently no way to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe clearly how you would like this feature to work.
+      placeholder: I would like...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative approaches or workarounds? If so, describe them.
+      placeholder: I also considered...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected Area
+      description: Which part of the mod does this feature relate to?
+      multiple: true
+      options:
+        - Items
+        - Blocks
+        - Entities / Mobs
+        - World Generation
+        - Crafting / Recipes
+        - Config / Balance
+        - Compatibility
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Anything else you would like to add to support this request?
+      placeholder: Add any other context here...
+    validations:
+      required: false

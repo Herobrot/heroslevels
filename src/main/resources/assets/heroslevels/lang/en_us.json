@@ -1,0 +1,13 @@
+{
+  "itemGroup.heroslevels": "Example Mod Tab",
+  "block.heroslevels.example_block": "Example Block",
+  "item.heroslevels.example_item": "Example Item",
+
+  "heroslevels.configuration.title": "Hero's Levels Configs",
+  "heroslevels.configuration.section.heroslevels.common.toml": "Hero's Levels Configs",
+  "heroslevels.configuration.section.heroslevels.common.toml.title": "Hero's Levels Configs",
+  "heroslevels.configuration.items": "Item List",
+  "heroslevels.configuration.logDirtBlock": "Log Dirt Block",
+  "heroslevels.configuration.magicNumberIntroduction": "Magic Number Text",
+  "heroslevels.configuration.magicNumber": "Magic Number"
+}
