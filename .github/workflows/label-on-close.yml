@@ -1,0 +1,67 @@
+name: Actualizar labels al cerrar o reabrir issue
+
+on:
+  issues:
+    types: [closed, reopened]
+
+permissions:
+  issues: write
+
+jobs:
+  update_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Actualizar labels según el estado del issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { repo } = context;
+            const issue = context.payload.issue;
+            const action = context.payload.action; // 'closed' o 'reopened'
+
+            const currentLabels = issue.labels.map(label => label.name);
+            let newLabels = [...currentLabels];
+
+            const remove = (name) => {
+              newLabels = newLabels.filter(l => l !== name);
+            };
+            const add = (name) => {
+              if (!newLabels.includes(name)) newLabels.push(name);
+            };
+
+            if (action === 'closed') {
+              if (issue.state_reason !== 'completed') {
+                console.log(`Cerrado con state_reason="${issue.state_reason}", no se tocan labels.`);
+                return;
+              }
+
+              remove('bug');
+              remove('working on');
+              remove('fixed on dev');
+              add('fixed');
+
+            } else if (action === 'reopened') {
+              remove('fixed');
+              remove('fixed on dev');
+              remove('working on');
+              add('bug');
+            }
+
+            const sameSet =
+              newLabels.length === currentLabels.length &&
+              newLabels.every(l => currentLabels.includes(l));
+
+            if (sameSet) {
+              console.log('No hay cambios en las labels.');
+              return;
+            }
+
+            await github.rest.issues.setLabels({
+              owner: repo.owner,
+              repo: repo.repo,
+              issue_number: issue.number,
+              labels: newLabels
+            });
+
+            console.log(`Labels actualizadas (${action}): ${newLabels.join(', ')}`);
