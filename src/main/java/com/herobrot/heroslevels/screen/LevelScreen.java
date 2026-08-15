@@ -42,7 +42,7 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     private int x;
     private int y;
 
-    private final Quaternionf quaternionf = new Quaternionf().rotateZ((float) Math.PI).rotateLocalY(1.85f);
+    private final Quaternionf quaternionf = new Quaternionf().rotateZ((float) Math.PI).rotateLocalY(0f);
     private boolean turnClientPlayer = false;
 
     private LevelManager levelManager;
@@ -141,7 +141,6 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             this.buttonsDirty = false;
         }
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-
         if (this.minecraft != null && this.minecraft.player != null) {
             Component pendingTooltip = null;
             Component title = Component.translatable("text.heroslevels.gui.title", this.minecraft.player.getName());
@@ -187,22 +186,13 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             if (craftingTooltip != null) pendingTooltip = craftingTooltip;
             Component miningTooltip = renderRestrictionIconAndGetTooltip(guiGraphics, LevelManager.MINING_RESTRICTIONS, "mining", 45, 75, 60, 45, mouseX, mouseY);
             if (miningTooltip != null) pendingTooltip = miningTooltip;
-            InventoryScreen.renderEntityInInventory(
-                    guiGraphics,
-                    this.x + 33,
-                    this.y + 43,
-                    30,
-                    new Vector3f(0.0F, this.minecraft.player.getBbHeight() / 2.0F, 0.0F),
-                    this.quaternionf,
-                    null,
-                    this.minecraft.player
-            );
+
+            renderPlayerModel(guiGraphics);
 
             if (isPointWithinBounds(this.x + 9, this.y + 67, 15, 10, mouseX, mouseY))
                 guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 138, 15, 10);
             else
                 guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 128, 15, 10);
-
             if (isPointWithinBounds(this.x + 41, this.y + 67, 15, 10, mouseX, mouseY))
                 guiGraphics.blit(ICON_TEXTURE, this.x + 41, this.y + 67, 15, 138, 15, 10);
             else
@@ -220,6 +210,32 @@ public class LevelScreen extends Screen implements ITabbedScreen {
 
         } else guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + yOffset, uEmpty, 80, 15, 13);
         return null;
+    }
+
+    private void renderPlayerModel(GuiGraphics guiGraphics) {
+        if (this.minecraft == null || this.minecraft.player == null) return;
+        float realYBodyRot = this.minecraft.player.yBodyRot;
+        float realYBodyRotO = this.minecraft.player.yBodyRotO;
+        float realYHeadRot = this.minecraft.player.getYHeadRot();
+        float realYHeadRotO = this.minecraft.player.yHeadRotO;
+        this.minecraft.player.yBodyRot = 180.0F;
+        this.minecraft.player.yBodyRotO = 180.0F;
+        this.minecraft.player.yHeadRot = 180.0F;
+        this.minecraft.player.yHeadRotO = 180.0F;
+        InventoryScreen.renderEntityInInventory(
+                guiGraphics,
+                this.x + 33,
+                this.y + 43,
+                30,
+                new Vector3f(0.0F, this.minecraft.player.getBbHeight() / 2.0F, 0.0F),
+                this.quaternionf,
+                null,
+                this.minecraft.player
+        );
+        this.minecraft.player.yBodyRot = realYBodyRot;
+        this.minecraft.player.yBodyRotO = realYBodyRotO;
+        this.minecraft.player.yHeadRot = realYHeadRot;
+        this.minecraft.player.yHeadRotO = realYHeadRotO;
     }
 
     @Override
