@@ -176,6 +176,7 @@ publishMods {
         client = true
         server = true
         requires("cloth-config")
+        requires("heros-lib")
         changelogType = "markdown"
         displayName = jar.archiveFileName.get()
     }
@@ -184,6 +185,7 @@ publishMods {
         projectId = modrinth_id
         minecraftVersions.add(minecraft_version)
         requires("cloth-config")
+        requires("heros-lib")
         environment = CLIENT_AND_SERVER
         version = "${mod_version}+${minecraft_version}"
     }
