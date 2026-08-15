@@ -82,22 +82,20 @@ dependencies {
     implementation("com.herobrot.heroslib:heroslib:${heroslib_version}")
 
     //Compile
-    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
-    compileOnly "io.wispforest:accessories-neoforge:1.1.0-beta.53+1.21.1"
-    compileOnly "maven.modrinth:jade:15.10.5+neoforge"
-    compileOnly "maven.modrinth:puzzles-lib:v21.1.52-1.21.1-NeoForge" //lib for Fuzs mods
-    compileOnly "maven.modrinth:easy-magic:v21.1.4-1.21.1-NeoForge"
-    compileOnly "maven.modrinth:easy-anvils:v21.1.0-1.21.1-NeoForge"
-    compileOnly "maven.modrinth:enchanting-infuser:v21.1.4-1.21.1-NeoForge"
-    compileOnly "maven.modrinth:apothic-enchanting:1.21.1-1.6.0"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    compileOnly "io.wispforest:accessories-neoforge:${accessories_version}"
+    compileOnly "maven.modrinth:jade:${jade_version}"
+    compileOnly "maven.modrinth:puzzles-lib:${puzzles_lib_version}" //lib for Fuzs mods
+    compileOnly "maven.modrinth:easy-magic:${easy_magic_version}"
+    compileOnly "maven.modrinth:easy-anvils:${easy_anvils_version}"
+    compileOnly "maven.modrinth:enchanting-infuser:${enchanting_infuser_version}"
+    compileOnly "maven.modrinth:apothic-enchanting:${apothic_enchanting_version}"
 
     //Test
     //runtimeOnly("com.herobrot.scalingdifficulty:scalingdifficulty:${scalingdifficulty_version}")
     //runtimeOnly("com.herobrot.levelplate:levelplate:${levelplate_version}")
 
     //Fuzs mods -> tested and compatible <-
-    //
-
 
     //Curios -> tested and compatible <-
     //compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
