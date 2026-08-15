@@ -8,7 +8,8 @@ plugins {
 tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
-version = mod_version
+
+version = "${mod_version}+${minecraft_version}"
 group = mod_group_id
 
 sourceSets.main.resources {
@@ -19,6 +20,11 @@ sourceSets.main.resources {
 repositories {
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://api.modrinth.com/maven" }
+    maven { url = 'https://maven.wispforest.io/releases' }
+    maven { url = "https://maven.su5ed.dev/releases" }
+    maven { url = "https://maven.fabricmc.net" }
+    maven { url = "https://maven.theillusivec4.top/" }
     mavenCentral()
     flatDir(
             dirs: 'libs'
@@ -57,8 +63,8 @@ neoForge {
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
         configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
             logLevel = org.slf4j.event.Level.DEBUG
+            systemProperty 'neoforge.logging.markers', 'REGISTRIES'
         }
     }
 
@@ -73,11 +79,37 @@ configurations {
 }
 dependencies {
     implementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
+    implementation("com.herobrot.heroslib:heroslib:${heroslib_version}")
+
     //Compile
+    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+    compileOnly "io.wispforest:accessories-neoforge:1.1.0-beta.53+1.21.1"
+    compileOnly "maven.modrinth:jade:15.10.5+neoforge"
+    compileOnly "maven.modrinth:puzzles-lib:v21.1.52-1.21.1-NeoForge" //lib for Fuzs mods
+    compileOnly "maven.modrinth:easy-magic:v21.1.4-1.21.1-NeoForge"
+    compileOnly "maven.modrinth:easy-anvils:v21.1.0-1.21.1-NeoForge"
+    compileOnly "maven.modrinth:enchanting-infuser:v21.1.4-1.21.1-NeoForge"
+    compileOnly "maven.modrinth:apothic-enchanting:1.21.1-1.6.0"
 
     //Test
     //runtimeOnly("com.herobrot.scalingdifficulty:scalingdifficulty:${scalingdifficulty_version}")
     //runtimeOnly("com.herobrot.levelplate:levelplate:${levelplate_version}")
+
+    //Fuzs mods -> tested and compatible <-
+    //
+
+
+    //Curios -> tested and compatible <-
+    //compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    //runtimeOnly "com.illusivesoulworks.caelus:caelus-neoforge:7.0.1+1.21.1"
+    //compileOnly "com.illusivesoulworks.caelus:caelus-neoforge:7.0.1+1.21.1:api"
+    //runtimeOnly "maven.modrinth:mSQF1NpT:RX6A02W1"
+
+    //Accesories -> tested and compatible <-
+    //Toni (prueba con Accesories)
+    //implementation "maven.modrinth:vBbPDuOs:M1CyD3Uu" // Lantern dynamic light
+    //implementation "maven.modrinth:vskzdsyT:CaxJ3tAY" // Lib
+    //implementation "maven.modrinth:PxQSWIcD:XI0WLXdn" // Sodium Dynamic Lights
 
 }
 tasks.named('processResources', ProcessResources) {
@@ -152,11 +184,14 @@ publishMods {
         projectId = modrinth_id
         minecraftVersions.add(minecraft_version)
         requires("cloth-config")
-        environment=CLIENT_AND_SERVER
+        environment = CLIENT_AND_SERVER
+        version = "${mod_version}+${minecraft_version}"
     }
     github {
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
         repository = "Herobrot/${mod_id}"
+        tagName="${mod_version}+${minecraft_version}"
+        displayName = "${mod_name} ${mod_version}+${minecraft_version}"
         commitish = "1.21"
         additionalFiles.from(tasks.named("sourcesJar"))
     }

@@ -1,0 +1,1462 @@
+{
+  "template_XX": {
+    "replace": false,
+    "skills": {},
+    "blocks": [],
+    "crafting": [],
+    "entities": [],
+    "items": [],
+    "brewing": [],
+    "enchantments": {}
+  },
+  "default_constitution_8": {
+    "replace": false,
+    "skills": {
+      "constitution": 8
+    },
+    "items": [
+      "minecraft:brush"
+    ]
+  },
+  "default_constitution_10": {
+    "replace": false,
+    "skills": {
+      "constitution": 10
+    },
+    "items": [
+      "minecraft:spyglass"
+    ]
+  },
+  "default_constitution_12": {
+    "replace": false,
+    "skills": {
+      "constitution": 12
+    },
+    "items": [
+      "minecraft:goat_horn"
+    ]
+  },
+  "default_constitution_16": {
+    "replace": false,
+    "skills": {
+      "constitution": 16
+    },
+    "blocks": [
+      "minecraft:jukebox"
+    ]
+  },
+  "default_melee_1": {
+    "replace": false,
+    "skills": {
+      "melee": 1
+    },
+    "items": [
+      "minecraft:stone_sword"
+    ]
+  },
+  "default_melee_7": {
+    "replace": false,
+    "skills": {
+      "melee": 7
+    },
+    "items": [
+      "minecraft:golden_sword"
+    ]
+  },
+  "default_melee_8": {
+    "replace": false,
+    "skills": {
+      "melee": 8
+    },
+    "items": [
+      "minecraft:iron_sword"
+    ]
+  },
+  "default_melee_12": {
+    "replace": false,
+    "skills": {
+      "melee": 12
+    },
+    "items": [
+      "minecraft:mace"
+    ]
+  },
+  "default_melee_15": {
+    "replace": false,
+    "skills": {
+      "melee": 15
+    },
+    "items": [
+      "minecraft:diamond_sword"
+    ]
+  },
+  "default_melee_20": {
+    "replace": false,
+    "skills": {
+      "melee": 20
+    },
+    "items": [
+      "minecraft:netherite_sword"
+    ]
+  },
+  "default_defense_1": {
+    "replace": false,
+    "skills": {
+      "defense": 1
+    },
+    "items": [
+      "minecraft:leather_helmet",
+      "minecraft:leather_chestplate",
+      "minecraft:leather_leggings",
+      "minecraft:leather_boots"
+    ]
+  },
+  "default_defense_5": {
+    "replace": false,
+    "skills": {
+      "defense": 5
+    },
+    "items": [
+      "minecraft:chainmail_helmet",
+      "minecraft:chainmail_chestplate",
+      "minecraft:chainmail_leggings",
+      "minecraft:chainmail_boots"
+    ]
+  },
+  "default_defense_7": {
+    "replace": false,
+    "skills": {
+      "defense": 7
+    },
+    "items": [
+      "minecraft:golden_helmet",
+      "minecraft:golden_chestplate",
+      "minecraft:golden_leggings",
+      "minecraft:golden_boots"
+    ]
+  },
+  "default_defense_8": {
+    "replace": false,
+    "skills": {
+      "defense": 8
+    },
+    "items": [
+      "minecraft:iron_helmet",
+      "minecraft:iron_chestplate",
+      "minecraft:iron_leggings",
+      "minecraft:iron_boots",
+      "minecraft:shield"
+    ]
+  },
+  "default_defense_15": {
+    "replace": false,
+    "skills": {
+      "defense": 15
+    },
+    "items": [
+      "minecraft:diamond_helmet",
+      "minecraft:diamond_chestplate",
+      "minecraft:diamond_leggings",
+      "minecraft:diamond_boots"
+    ]
+  },
+  "default_defense_20": {
+    "replace": false,
+    "skills": {
+      "defense": 20
+    },
+    "items": [
+      "minecraft:netherite_helmet",
+      "minecraft:netherite_chestplate",
+      "minecraft:netherite_leggings",
+      "minecraft:netherite_boots"
+    ]
+  },
+  "default_archery_5": {
+    "replace": false,
+    "skills": {
+      "archery": 5
+    },
+    "items": [
+      "minecraft:bow"
+    ]
+  },
+  "default_archery_10": {
+    "replace": false,
+    "skills": {
+      "archery": 10
+    },
+    "items": [
+      "minecraft:crossbow"
+    ]
+  },
+  "default_archery_20": {
+    "replace": false,
+    "skills": {
+      "archery": 20
+    },
+    "items": [
+      "minecraft:trident"
+    ]
+  },
+  "default_agility_2": {
+    "replace": false,
+    "skills": {
+      "agility": 2
+    },
+    "entities": [
+      "minecraft:boat",
+      "minecraft:chest_boat"
+    ]
+  },
+  "default_agility_5": {
+    "replace": false,
+    "skills": {
+      "agility": 5
+    },
+    "items": [
+      "minecraft:turtle_helmet"
+    ]
+  },
+  "default_agility_8": {
+    "replace": false,
+    "skills": {
+      "agility": 8
+    },
+    "entities": [
+      "minecraft:minecart",
+      "minecraft:chest_minecart"
+    ]
+  },
+  "default_agility_10": {
+    "replace": false,
+    "skills": {
+      "agility": 10
+    },
+    "blocks": [
+      "minecraft:cartography_table"
+    ],
+    "items": [
+      "minecraft:recovery_compass"
+    ]
+  },
+  "default_agility_15": {
+    "replace": false,
+    "skills": {
+      "agility": 15
+    },
+    "items": [
+      "minecraft:elytra"
+    ]
+  },
+  "default_magic_3": {
+    "replace": false,
+    "skills": {
+      "magic": 3
+    },
+    "blocks": [
+      "minecraft:enchanting_table"
+    ],
+    "enchantments": {
+      "minecraft:bane_of_arthropods": 1,
+      "minecraft:smite": 1
+    }
+  },
+  "default_magic_4": {
+    "replace": false,
+    "skills": {
+      "magic": 4
+    },
+    "enchantments": {
+      "minecraft:impaling": 1
+    }
+  },
+  "default_magic_5": {
+    "replace": false,
+    "skills": {
+      "magic": 5
+    },
+    "enchantments": {
+      "minecraft:sweeping_edge": 1
+    }
+  },
+  "default_magic_6": {
+    "replace": false,
+    "skills": {
+      "magic": 6
+    },
+    "enchantments": {
+      "minecraft:respiration": 1,
+      "minecraft:sharpness": 1,
+      "minecraft:knockback": 1,
+      "minecraft:fire_protection": 1,
+      "minecraft:projectile_protection": 1,
+      "minecraft:blast_protection": 1,
+      "minecraft:lure": 1
+    }
+  },
+  "default_magic_7": {
+    "replace": false,
+    "skills": {
+      "magic": 7
+    },
+    "enchantments": {
+      "minecraft:soul_speed": 1,
+      "minecraft:luck_of_the_sea": 1,
+      "minecraft:piercing": 1
+    }
+  },
+  "default_magic_8": {
+    "replace": false,
+    "skills": {
+      "magic": 8
+    },
+    "enchantments": {
+      "minecraft:efficiency": 1,
+      "minecraft:bane_of_arthropods": 2,
+      "minecraft:smite": 2,
+      "minecraft:swift_sneak": 1,
+      "minecraft:protection": 1,
+      "minecraft:impaling": 2,
+      "minecraft:power": 1
+    }
+  },
+  "default_magic_9": {
+    "replace": false,
+    "skills": {
+      "magic": 9
+    },
+    "enchantments": {
+      "minecraft:frost_walker": 1,
+      "minecraft:feather_falling": 1,
+      "minecraft:thorns": 1,
+      "minecraft:quick_charge": 1,
+      "minecraft:density": 1,
+      "minecraft:breach": 1
+    }
+  },
+  "default_magic_10": {
+    "replace": false,
+    "skills": {
+      "magic": 10
+    },
+    "enchantments": {
+      "minecraft:aqua_affinity": 1,
+      "minecraft:unbreaking": 1,
+      "minecraft:sweeping_edge": 2,
+      "minecraft:depth_strider": 1,
+      "minecraft:loyalty": 1
+    }
+  },
+  "default_magic_11": {
+    "replace": false,
+    "skills": {
+      "magic": 11
+    },
+    "enchantments": {
+      "minecraft:respiration": 2,
+      "minecraft:sharpness": 2,
+      "minecraft:knockback": 2,
+      "minecraft:fire_protection": 2,
+      "minecraft:projectile_protection": 2,
+      "minecraft:blast_protection": 2,
+      "minecraft:power": 2
+    }
+  },
+  "default_magic_12": {
+    "replace": false,
+    "skills": {
+      "magic": 12
+    },
+    "enchantments": {
+      "minecraft:multishot": 1,
+      "minecraft:efficiency": 2,
+      "minecraft:bane_of_arthropods": 3,
+      "minecraft:smite": 3,
+      "minecraft:soul_speed": 2,
+      "minecraft:lure": 2,
+      "minecraft:impaling": 3,
+      "minecraft:piercing": 2,
+      "minecraft:punch": 1,
+      "minecraft:density": 2
+    }
+  },
+  "default_magic_13": {
+    "replace": false,
+    "skills": {
+      "magic": 13
+    },
+    "enchantments": {
+      "minecraft:fortune": 1,
+      "minecraft:looting": 1,
+      "minecraft:fire_aspect": 1,
+      "minecraft:feather_falling": 2,
+      "minecraft:swift_sneak": 2,
+      "minecraft:depth_strider": 2,
+      "minecraft:protection": 2,
+      "minecraft:luck_of_the_sea": 2,
+      "minecraft:breach": 2
+    }
+  },
+  "default_magic_14": {
+    "replace": false,
+    "skills": {
+      "magic": 14
+    },
+    "enchantments": {
+      "minecraft:unbreaking": 2,
+      "minecraft:thorns": 2,
+      "minecraft:power": 3,
+      "minecraft:wind_burst": 1
+    }
+  },
+  "default_magic_15": {
+    "replace": false,
+    "skills": {
+      "magic": 15
+    },
+    "enchantments": {
+      "minecraft:frost_walker": 2,
+      "minecraft:sharpness": 3,
+      "minecraft:efficiency": 3,
+      "minecraft:sweeping_edge": 3,
+      "minecraft:fire_protection": 3,
+      "minecraft:projectile_protection": 3,
+      "minecraft:blast_protection": 3,
+      "minecraft:loyalty": 2,
+      "minecraft:riptide": 1,
+      "minecraft:quick_charge": 2,
+      "minecraft:density": 3
+    }
+  },
+  "default_magic_16": {
+    "replace": false,
+    "skills": {
+      "magic": 16
+    },
+    "enchantments": {
+      "minecraft:respiration": 3,
+      "minecraft:channeling": 1,
+      "minecraft:bane_of_arthropods": 4,
+      "minecraft:smite": 4,
+      "minecraft:depth_strider": 3,
+      "minecraft:impaling": 4,
+      "minecraft:piercing": 3,
+      "minecraft:breach": 3
+    }
+  },
+  "default_magic_17": {
+    "replace": false,
+    "skills": {
+      "magic": 17
+    },
+    "enchantments": {
+      "minecraft:fortune": 2,
+      "minecraft:looting": 2,
+      "minecraft:feather_falling": 3,
+      "minecraft:swift_sneak": 3,
+      "minecraft:soul_speed": 3,
+      "minecraft:protection": 3,
+      "minecraft:lure": 3,
+      "minecraft:power": 4,
+      "minecraft:wind_burst": 2
+    }
+  },
+  "default_magic_18": {
+    "replace": false,
+    "skills": {
+      "magic": 18
+    },
+    "enchantments": {
+      "minecraft:silk_touch": 1,
+      "minecraft:sharpness": 4,
+      "minecraft:unbreaking": 3,
+      "minecraft:fire_protection": 4,
+      "minecraft:projectile_protection": 4,
+      "minecraft:blast_protection": 4,
+      "minecraft:luck_of_the_sea": 3,
+      "minecraft:riptide": 2,
+      "minecraft:flame": 1,
+      "minecraft:punch": 2,
+      "minecraft:density": 4
+    }
+  },
+  "default_magic_19": {
+    "replace": false,
+    "skills": {
+      "magic": 19
+    },
+    "enchantments": {
+      "minecraft:efficiency": 4,
+      "minecraft:fire_aspect": 2,
+      "minecraft:bane_of_arthropods": 5,
+      "minecraft:smite": 5,
+      "minecraft:thorns": 3,
+      "minecraft:impaling": 5,
+      "minecraft:piercing": 4,
+      "minecraft:breach": 4
+    }
+  },
+  "default_magic_20": {
+    "replace": false,
+    "skills": {
+      "magic": 20
+    },
+    "items": [
+      "minecraft:totem_of_undying"
+    ],
+    "enchantments": {
+      "minecraft:mending": 1,
+      "minecraft:fortune": 3,
+      "minecraft:looting": 3,
+      "minecraft:sharpness": 5,
+      "minecraft:feather_falling": 4,
+      "minecraft:protection": 4,
+      "minecraft:loyalty": 3,
+      "minecraft:riptide": 3,
+      "minecraft:quick_charge": 3,
+      "minecraft:infinity": 1,
+      "minecraft:power": 5,
+      "minecraft:wind_burst": 3,
+      "minecraft:density": 5
+    }
+  },
+  "default_alchemy_02": {
+    "replace": false,
+    "skills": {
+      "alchemy": 2
+    },
+    "brewing": [
+      "minecraft:mundane"
+    ],
+    "blocks": [
+      "minecraft:brewing_stand"
+    ]
+  },
+  "default_alchemy_03": {
+    "replace": false,
+    "skills": {
+      "alchemy": 3
+    },
+    "brewing": [
+      "minecraft:thick"
+    ]
+  },
+  "default_alchemy_04": {
+    "replace": false,
+    "skills": {
+      "alchemy": 4
+    },
+    "brewing": [
+      "minecraft:thick"
+    ]
+  },
+  "default_alchemy_05": {
+    "replace": false,
+    "skills": {
+      "alchemy": 5
+    },
+    "brewing": [
+      "minecraft:awkward",
+      "minecraft:swiftness"
+    ]
+  },
+  "default_alchemy_06": {
+    "replace": false,
+    "skills": {
+      "alchemy": 6
+    },
+    "brewing": [
+      "minecraft:leaping"
+    ]
+  },
+  "default_alchemy_08": {
+    "replace": false,
+    "skills": {
+      "alchemy": 8
+    },
+    "brewing": [
+      "minecraft:weakness",
+      "minecraft:slowness"
+    ]
+  },
+  "default_alchemy_09": {
+    "replace": false,
+    "skills": {
+      "alchemy": 9
+    },
+    "brewing": [
+      "minecraft:poison"
+    ]
+  },
+  "default_alchemy_10": {
+    "replace": false,
+    "skills": {
+      "alchemy": 10
+    },
+    "crafting": [
+      "minecraft:nether_wart"
+    ],
+    "brewing": [
+      "minecraft:healing",
+      "minecraft:harming",
+      "minecraft:water_breathing",
+      "minecraft:long_swiftness",
+      "minecraft:long_slowness",
+      "minecraft:long_leaping",
+      "minecraft:long_weakness",
+      "minecraft:long_poison"
+    ]
+  },
+  "default_alchemy_12": {
+    "replace": false,
+    "skills": {
+      "alchemy": 12
+    },
+    "crafting": [
+      "minecraft:fermented_spider_eye"
+    ],
+    "brewing": [
+      "minecraft:night_vision",
+      "minecraft:turtle_master",
+      "minecraft:long_water_breathing"
+    ]
+  },
+  "default_alchemy_13": {
+    "replace": false,
+    "skills": {
+      "alchemy": 13
+    },
+    "brewing": [
+      "minecraft:slow_falling",
+      "minecraft:wind_charged",
+      "minecraft:weaving"
+    ]
+  },
+  "default_alchemy_14": {
+    "replace": false,
+    "skills": {
+      "alchemy": 14
+    },
+    "brewing": [
+      "minecraft:invisibility",
+      "minecraft:strength",
+      "minecraft:regeneration",
+      "minecraft:fire_resistance",
+      "minecraft:long_night_vision",
+      "minecraft:long_turtle_master"
+    ]
+  },
+  "default_alchemy_15": {
+    "replace": false,
+    "skills": {
+      "alchemy": 15
+    },
+    "brewing": [
+      "minecraft:strong_leaping",
+      "minecraft:strong_swiftness",
+      "minecraft:strong_slowness",
+      "minecraft:long_slow_falling"
+    ],
+    "items": [
+      "minecraft:lingering_potion"
+    ]
+  },
+  "default_alchemy_16": {
+    "replace": false,
+    "skills": {
+      "alchemy": 16
+    },
+    "brewing": [
+      "minecraft:long_invisibility",
+      "minecraft:long_strength",
+      "minecraft:long_regeneration",
+      "minecraft:long_fire_resistance"
+    ]
+  },
+  "default_alchemy_18": {
+    "replace": false,
+    "skills": {
+      "alchemy": 18
+    },
+    "brewing": [
+      "minecraft:strong_strength",
+      "minecraft:strong_healing",
+      "minecraft:strong_regeneration",
+      "minecraft:strong_harming",
+      "minecraft:strong_poison",
+      "minecraft:strong_turtle_master"
+    ]
+  },
+  "default_alchemy_20": {
+    "replace": false,
+    "skills": {
+      "alchemy": 20
+    },
+    "brewing": [
+      "minecraft:oozing",
+      "minecraft:infested"
+    ]
+  },
+  "default_mining_1": {
+    "replace": false,
+    "skills": {
+      "mining": 1
+    },
+    "items": [
+      "minecraft:stone_axe",
+      "minecraft:stone_pickaxe",
+      "minecraft:stone_shovel"
+    ],
+    "mining": [
+      "minecraft:gravel",
+      "minecraft:suspicious_gravel",
+      "minecraft:packed_mud",
+      "minecraft:mud_bricks",
+      "minecraft:mud_brick_stairs",
+      "minecraft:mud_brick_slab",
+      "minecraft:mud_brick_wall",
+      "minecraft:mud",
+      "minecraft:clay",
+      "minecraft:tuff",
+      "minecraft:calcite",
+      "minecraft:andesite",
+      "minecraft:andesite_slab",
+      "minecraft:andesite_stairs",
+      "minecraft:andesite_wall",
+      "minecraft:black_terracotta",
+      "minecraft:blue_terracotta",
+      "minecraft:brown_terracotta",
+      "minecraft:clay",
+      "minecraft:coal_block",
+      "minecraft:coal_ore",
+      "minecraft:chiseled_red_sandstone",
+      "minecraft:chiseled_sandstone",
+      "minecraft:cobbled_deepslate",
+      "minecraft:cobblestone",
+      "minecraft:cobblestone_slab",
+      "minecraft:cobblestone_stairs",
+      "minecraft:cobblestone_wall",
+      "minecraft:cracked_stone_bricks",
+      "minecraft:cut_red_sandstone",
+      "minecraft:cut_red_sandstone_slab",
+      "minecraft:cut_stone",
+      "minecraft:cut_stone_slab",
+      "minecraft:cyan_terracotta",
+      "minecraft:dripstone_block",
+      "minecraft:pointed_dripstone",
+      "minecraft:diorite",
+      "minecraft:diorite_slab",
+      "minecraft:diorite_stairs",
+      "minecraft:diorite_wall",
+      "minecraft:granite",
+      "minecraft:granite_slab",
+      "minecraft:granite_stairs",
+      "minecraft:granite_wall",
+      "minecraft:gray_terracotta",
+      "minecraft:green_terracotta",
+      "minecraft:infested_chiseled_stone_bricks",
+      "minecraft:infested_cobblestone",
+      "minecraft:infested_cracked_stone_bricks",
+      "minecraft:infested_mossy_stone_bricks",
+      "minecraft:infested_stone",
+      "minecraft:infested_stone_bricks",
+      "minecraft:light_blue_terracotta",
+      "minecraft:light_gray_terracotta",
+      "minecraft:lime_terracotta",
+      "minecraft:magenta_terracotta",
+      "minecraft:mossy_stone_brick_slab",
+      "minecraft:mossy_stone_brick_stairs",
+      "minecraft:mossy_stone_brick_wall",
+      "minecraft:mossy_stone_bricks",
+      "minecraft:orange_terracotta",
+      "minecraft:pink_terracotta",
+      "minecraft:polished_andesite",
+      "minecraft:polished_andesite_slab",
+      "minecraft:polished_andesite_stairs",
+      "minecraft:polished_diorite",
+      "minecraft:polished_diorite_slab",
+      "minecraft:polished_diorite_stairs",
+      "minecraft:polished_granite",
+      "minecraft:polished_granite_slab",
+      "minecraft:polished_granite_stairs",
+      "minecraft:purple_terracotta",
+      "minecraft:red_sandstone",
+      "minecraft:red_sandstone_slab",
+      "minecraft:red_sandstone_stairs",
+      "minecraft:red_sandstone_wall",
+      "minecraft:red_terracotta",
+      "minecraft:sandstone",
+      "minecraft:sandstone_slab",
+      "minecraft:sandstone_stairs",
+      "minecraft:sandstone_wall",
+      "minecraft:smooth_red_sandstone",
+      "minecraft:smooth_red_sandstone_slab",
+      "minecraft:smooth_red_sandstone_stairs",
+      "minecraft:smooth_sandstone",
+      "minecraft:smooth_sandstone_slab",
+      "minecraft:smooth_sandstone_stairs",
+      "minecraft:smooth_stone",
+      "minecraft:smooth_stone_slab",
+      "minecraft:stone",
+      "minecraft:stone_brick_slab",
+      "minecraft:stone_brick_stairs",
+      "minecraft:stone_brick_wall",
+      "minecraft:stone_bricks",
+      "minecraft:stone_button",
+      "minecraft:stone_pressure_plate",
+      "minecraft:stone_slab",
+      "minecraft:stone_stairs",
+      "minecraft:terracotta",
+      "minecraft:white_terracotta",
+      "minecraft:yellow_terracotta",
+      "minecraft:bricks",
+      "minecraft:brick_stairs",
+      "minecraft:brick_slab",
+      "minecraft:brick_wall"
+    ]
+  },
+  "default_mining_2": {
+    "replace": false,
+    "skills": {
+      "mining": 2
+    },
+    "mining": [
+      "minecraft:copper_block",
+      "minecraft:copper_ore",
+      "minecraft:cut_copper",
+      "minecraft:cut_copper_slab",
+      "minecraft:cut_copper_stairs",
+      "minecraft:deepslate_copper_ore",
+      "minecraft:exposed_copper",
+      "minecraft:exposed_cut_copper",
+      "minecraft:exposed_cut_copper_slab",
+      "minecraft:exposed_cut_copper_stairs",
+      "minecraft:oxidized_copper",
+      "minecraft:oxidized_cut_copper",
+      "minecraft:oxidized_cut_copper_slab",
+      "minecraft:oxidized_cut_copper_stairs",
+      "minecraft:raw_copper_block",
+      "minecraft:waxed_copper_block",
+      "minecraft:waxed_cut_copper",
+      "minecraft:waxed_cut_copper_slab",
+      "minecraft:waxed_cut_copper_stairs",
+      "minecraft:waxed_exposed_copper",
+      "minecraft:waxed_exposed_cut_copper",
+      "minecraft:waxed_exposed_cut_copper_slab",
+      "minecraft:waxed_exposed_cut_copper_stairs",
+      "minecraft:waxed_oxidized_copper",
+      "minecraft:waxed_oxidized_cut_copper",
+      "minecraft:waxed_oxidized_cut_copper_slab",
+      "minecraft:waxed_oxidized_cut_copper_stairs",
+      "minecraft:waxed_weathered_copper",
+      "minecraft:waxed_weathered_cut_copper",
+      "minecraft:waxed_weathered_cut_copper_slab",
+      "minecraft:waxed_weathered_cut_copper_stairs",
+      "minecraft:weathered_copper",
+      "minecraft:weathered_cut_copper",
+      "minecraft:weathered_cut_copper_slab",
+      "minecraft:weathered_cut_copper_stairs"
+    ]
+  },
+  "default_mining_3": {
+    "replace": false,
+    "skills": {
+      "mining": 3
+    },
+    "items": [
+      "minecraft:copper_axe",
+      "minecraft:copper_pickaxe",
+      "minecraft:copper_shovel"
+    ],
+    "mining": [
+      "minecraft:chiseled_deepslate",
+      "minecraft:cobbled_deepslate_slab",
+      "minecraft:cobbled_deepslate_stairs",
+      "minecraft:cobbled_deepslate_wall",
+      "minecraft:cracked_deepslate_bricks",
+      "minecraft:cracked_deepslate_tiles",
+      "minecraft:deepslate",
+      "minecraft:deepslate_brick_slab",
+      "minecraft:deepslate_brick_stairs",
+      "minecraft:deepslate_brick_wall",
+      "minecraft:deepslate_bricks",
+      "minecraft:deepslate_coal_ore",
+      "minecraft:deepslate_tile_slab",
+      "minecraft:deepslate_tile_stairs",
+      "minecraft:deepslate_tile_wall",
+      "minecraft:deepslate_tiles",
+      "minecraft:infested_deepslate",
+      "minecraft:polished_deepslate",
+      "minecraft:polished_deepslate_slab",
+      "minecraft:polished_deepslate_stairs",
+      "minecraft:polished_deepslate_wall"
+    ]
+  },
+  "default_mining_6": {
+    "replace": false,
+    "skills": {
+      "mining": 6
+    },
+    "mining": [
+      "minecraft:amethyst_block",
+      "minecraft:budding_amethyst",
+      "minecraft:small_amethyst_bud",
+      "minecraft:medium_amethyst_bud",
+      "minecraft:large_amethyst_bud",
+      "minecraft:amethyst_cluster",
+      "minecraft:raw_copper_block",
+      "minecraft:copper_ore",
+      "minecraft:copper_block",
+      "minecraft:chiseled_copper",
+      "minecraft:copper_grate",
+      "minecraft:cut_copper",
+      "minecraft:cut_copper_stairs",
+      "minecraft:cut_copper_slab",
+      "minecraft:copper_door",
+      "minecraft:copper_trapdoor",
+      "minecraft:copper_bulb",
+      "minecraft:exposed_copper",
+      "minecraft:exposed_chiseled_copper",
+      "minecraft:exposed_copper_grate",
+      "minecraft:exposed_cut_copper",
+      "minecraft:exposed_cut_copper_stairs",
+      "minecraft:exposed_cut_copper_slab",
+      "minecraft:exposed_copper_door",
+      "minecraft:exposed_copper_trapdoor",
+      "minecraft:exposed_copper_bulb",
+      "minecraft:weathered_copper",
+      "minecraft:weathered_chiseled_copper",
+      "minecraft:weathered_copper_grate",
+      "minecraft:weathered_cut_copper",
+      "minecraft:weathered_cut_copper_stairs",
+      "minecraft:weathered_cut_copper_slab",
+      "minecraft:weathered_copper_door",
+      "minecraft:weathered_copper_trapdoor",
+      "minecraft:weathered_copper_bulb",
+      "minecraft:oxidized_copper",
+      "minecraft:oxidized_chiseled_copper",
+      "minecraft:oxidized_copper_grate",
+      "minecraft:oxidized_cut_copper",
+      "minecraft:oxidized_cut_copper_stairs",
+      "minecraft:oxidized_cut_copper_slab",
+      "minecraft:oxidized_copper_door",
+      "minecraft:oxidized_copper_trapdoor",
+      "minecraft:oxidized_copper_bulb",
+      "minecraft:waxed_copper_block",
+      "minecraft:waxed_chiseled_copper",
+      "minecraft:waxed_copper_grate",
+      "minecraft:waxed_cut_copper",
+      "minecraft:waxed_cut_copper_stairs",
+      "minecraft:waxed_cut_copper_slab",
+      "minecraft:waxed_copper_door",
+      "minecraft:waxed_copper_trapdoor",
+      "minecraft:waxed_copper_bulb",
+      "minecraft:waxed_exposed_copper",
+      "minecraft:waxed_exposed_chiseled_copper",
+      "minecraft:waxed_exposed_copper_grate",
+      "minecraft:waxed_exposed_cut_copper",
+      "minecraft:waxed_exposed_cut_copper_stairs",
+      "minecraft:waxed_exposed_cut_copper_slab",
+      "minecraft:waxed_exposed_copper_door",
+      "minecraft:waxed_exposed_copper_trapdoor",
+      "minecraft:waxed_exposed_copper_bulb",
+      "minecraft:waxed_weathered_copper",
+      "minecraft:waxed_weathered_chiseled_copper",
+      "minecraft:waxed_weathered_copper_grate",
+      "minecraft:waxed_weathered_cut_copper",
+      "minecraft:waxed_weathered_cut_copper_stairs",
+      "minecraft:waxed_weathered_cut_copper_slab",
+      "minecraft:waxed_weathered_copper_door",
+      "minecraft:waxed_weathered_copper_trapdoor",
+      "minecraft:waxed_weathered_copper_bulb",
+      "minecraft:waxed_oxidized_copper",
+      "minecraft:waxed_oxidized_chiseled_copper",
+      "minecraft:waxed_oxidized_copper_grate",
+      "minecraft:waxed_oxidized_cut_copper",
+      "minecraft:waxed_oxidized_cut_copper_stairs",
+      "minecraft:waxed_oxidized_cut_copper_slab",
+      "minecraft:waxed_oxidized_copper_door",
+      "minecraft:waxed_oxidized_copper_trapdoor",
+      "minecraft:waxed_oxidized_copper_bulb"
+    ]
+  },
+  "default_mining_7": {
+    "replace": false,
+    "skills": {
+      "mining": 7
+    },
+    "items": [
+      "minecraft:golden_pickaxe",
+      "minecraft:golden_shovel"
+    ],
+    "mining": [
+      "minecraft:gold_block",
+      "minecraft:raw_gold_block",
+      "minecraft:gold_ore",
+      "minecraft:light_weighted_pressure_plate",
+      "minecraft:deepslate_gold_ore"
+    ]
+  },
+  "default_mining_8": {
+    "replace": false,
+    "skills": {
+      "mining": 8
+    },
+    "items": [
+      "minecraft:iron_pickaxe",
+      "minecraft:iron_shovel"
+    ],
+    "mining": [
+      "minecraft:anvil",
+      "minecraft:deepslate_iron_ore",
+      "minecraft:deepslate_lapis_ore",
+      "minecraft:deepslate_redstone_ore",
+      "minecraft:iron_block",
+      "minecraft:iron_ore",
+      "minecraft:raw_iron_block",
+      "minecraft:lapis_block",
+      "minecraft:lapis_ore",
+      "minecraft:redstone_block",
+      "minecraft:redstone_ore",
+      "minecraft:emerald_block",
+      "minecraft:emerald_ore",
+      "minecraft:deepslate_emerald_ore"
+    ]
+  },
+  "default_mining_11": {
+    "replace": false,
+    "skills": {
+      "mining": 11
+    },
+    "mining": [
+      "minecraft:sea_lantern",
+      "minecraft:prismarine",
+      "minecraft:prismarine_stairs",
+      "minecraft:prismarine_slab",
+      "minecraft:prismarine_wall",
+      "minecraft:prismarine_bricks",
+      "minecraft:prismarine_brick_stairs",
+      "minecraft:prismarine_brick_slab",
+      "minecraft:dark_prismarine",
+      "minecraft:dark_prismarine_stairs",
+      "minecraft:dark_prismarine_slab",
+      "minecraft:magma_block",
+      "minecraft:sculk",
+      "minecraft:sculk_vein",
+      "minecraft:sculk_catalyst",
+      "minecraft:sculk_shrieker",
+      "minecraft:sculk_sensor",
+      "minecraft:calibrated_sculk_sensor"
+    ]
+  },
+  "default_mining_13": {
+    "replace": false,
+    "skills": {
+      "mining": 13
+    },
+    "mining": [
+      "minecraft:redstone_block",
+      "minecraft:redstone_ore",
+      "minecraft:deepslate_redstone_ore",
+      "minecraft:basalt",
+      "minecraft:polished_basalt",
+      "minecraft:polished_basalt"
+    ]
+  },
+  "default_mining_15": {
+    "replace": false,
+    "skills": {
+      "mining": 15
+    },
+    "items": [
+      "minecraft:diamond_pickaxe",
+      "minecraft:diamond_shovel"
+    ],
+    "mining": [
+      "minecraft:diamond_block",
+      "minecraft:diamond_ore",
+      "minecraft:deepslate_diamond_ore",
+      "minecraft:obsidian",
+      "minecraft:crying_obsidian",
+      "minecraft:enchanting_table"
+    ]
+  },
+  "default_mining_16": {
+    "replace": false,
+    "skills": {
+      "mining": 16
+    },
+    "mining": [
+      "minecraft:blackstone",
+      "minecraft:gilded_blackstone",
+      "minecraft:blackstone_stairs",
+      "minecraft:blackstone_slab",
+      "minecraft:blackstone_wall",
+      "minecraft:chiseled_polished_blackstone",
+      "minecraft:polished_blackstone",
+      "minecraft:polished_blackstone_stairs",
+      "minecraft:polished_blackstone_slab",
+      "minecraft:polished_blackstone_wall",
+      "minecraft:polished_blackstone_pressure_plate",
+      "minecraft:polished_blackstone_button",
+      "minecraft:polished_blackstone_bricks",
+      "minecraft:cracked_polished_blackstone_bricks",
+      "minecraft:polished_blackstone_brick_stairs",
+      "minecraft:polished_blackstone_brick_slab",
+      "minecraft:polished_blackstone_brick_wall",
+      "minecraft:nether_quartz_ore",
+      "minecraft:quartz_block",
+      "minecraft:quartz_stairs",
+      "minecraft:quartz_slab",
+      "minecraft:chiseled_quartz_block",
+      "minecraft:quartz_bricks",
+      "minecraft:quartz_pillar",
+      "minecraft:smooth_quartz",
+      "minecraft:smooth_quartz_stairs",
+      "minecraft:smooth_quartz_slab",
+      "minecraft:crimson_nylium",
+      "minecraft:warped_nylium",
+      "minecraft:netherrack",
+      "minecraft:nether_bricks",
+      "minecraft:cracked_nether_bricks",
+      "minecraft:nether_brick_stairs",
+      "minecraft:nether_brick_slab",
+      "minecraft:nether_brick_wall",
+      "minecraft:nether_brick_fence",
+      "minecraft:chiseled_nether_bricks",
+      "minecraft:red_nether_bricks",
+      "minecraft:red_nether_brick_stairs",
+      "minecraft:red_nether_brick_slab",
+      "minecraft:red_nether_brick_wall",
+      "minecraft:nether_gold_ore",
+      "minecraft:glowstone"
+    ]
+  },
+  "default_mining_18": {
+    "replace": false,
+    "skills": {
+      "mining": 18
+    },
+    "mining": [
+      "minecraft:purpur_block",
+      "minecraft:purpur_pillar",
+      "minecraft:purpur_stairs",
+      "minecraft:purpur_slab"
+    ]
+  },
+  "default_mining_19": {
+    "replace": false,
+    "skills": {
+      "mining": 19
+    },
+    "mining": [
+      "minecraft:end_stone",
+      "minecraft:end_stone_bricks",
+      "minecraft:end_stone_brick_stairs",
+      "minecraft:end_stone_brick_slab",
+      "minecraft:end_stone_brick_wall"
+    ]
+  },
+  "default_mining_20": {
+    "replace": false,
+    "skills": {
+      "mining": 20
+    },
+    "items": [
+      "minecraft:netherite_axe",
+      "minecraft:netherite_pickaxe",
+      "minecraft:netherite_shovel"
+    ],
+    "mining": [
+      "minecraft:ancient_debris",
+      "minecraft:netherite_block"
+    ]
+  },
+  "default_smithing_1": {
+    "replace": false,
+    "skills": {
+      "smithing": 1
+    },
+    "blocks": [
+      "minecraft:furnace"
+    ]
+  },
+  "default_smithing_3": {
+    "replace": false,
+    "skills": {
+      "smithing": 3
+    },
+    "blocks": [
+      "minecraft:dispenser",
+      "minecraft:dropper"
+    ]
+  },
+  "default_smithing_5": {
+    "replace": false,
+    "skills": {
+      "smithing": 5
+    },
+    "blocks": [
+      "minecraft:blast_furnace",
+      "minecraft:anvil",
+      "minecraft:chipped_anvil",
+      "minecraft:damaged_anvil",
+      "minecraft:grindstone",
+      "minecraft:stonecutter"
+    ],
+    "items": [
+      "minecraft:flint_and_steel"
+    ],
+    "crafting": [
+      "minecraft:iron_ingot",
+      "minecraft:gold_ingot",
+      "minecraft:raw_gold",
+      "minecraft:gold_axe",
+      "minecraft:gold_boots",
+      "minecraft:gold_chestplate",
+      "minecraft:gold_helmet",
+      "minecraft:gold_hoe",
+      "minecraft:gold_leggings",
+      "minecraft:gold_pickaxe",
+      "minecraft:gold_shovel",
+      "minecraft:golden_sword",
+      "minecraft:anvil",
+      "minecraft:iron_axe",
+      "minecraft:iron_boots",
+      "minecraft:iron_chestplate",
+      "minecraft:iron_helmet",
+      "minecraft:iron_hoe",
+      "minecraft:iron_leggings",
+      "minecraft:iron_pickaxe",
+      "minecraft:iron_shovel",
+      "minecraft:iron_sword"
+    ]
+  },
+  "default_smithing_7": {
+    "replace": false,
+    "skills": {
+      "smithing": 7
+    },
+    "blocks": [
+      "minecraft:crafter",
+      "minecraft:hopper"
+    ],
+    "crafting": [
+      "minecraft:crafter",
+      "minecraft:hopper"
+    ]
+  },
+  "default_smithing_15": {
+    "replace": false,
+    "skills": {
+      "smithing": 14
+    },
+    "blocks": [
+      "minecraft:smithing_table"
+    ],
+    "crafting": [
+      "minecraft:diamond_helmet",
+      "minecraft:diamond_chestplate",
+      "minecraft:diamond_leggings",
+      "minecraft:diamond_boots",
+      "minecraft:diamond_sword",
+      "minecraft:diamond_axe",
+      "minecraft:diamond_pickaxe",
+      "minecraft:diamond_hoe"
+    ]
+  },
+  "default_smithing_20": {
+    "replace": false,
+    "skills": {
+      "smithing": 20
+    },
+    "crafting": [
+      "minecraft:netherite_shovel",
+      "minecraft:netherite_pickaxe",
+      "minecraft:netherite_axe",
+      "minecraft:netherite_hoe",
+      "minecraft:netherite_sword",
+      "minecraft:netherite_helmet",
+      "minecraft:netherite_chestplate",
+      "minecraft:netherite_leggings",
+      "minecraft:netherite_boots",
+      "minecraft:netherite_ingot"
+    ]
+  },
+  "default_farming_1": {
+    "replace": false,
+    "skills": {
+      "farming": 1
+    },
+    "items": [
+      "minecraft:stone_hoe",
+      "minecraft:stone_axe"
+    ],
+    "blocks": [
+      "minecraft:campfire"
+    ],
+    "crafting": [
+      "minecraft:campfire"
+    ]
+  },
+  "default_farming_3": {
+    "replace": false,
+    "skills": {
+      "farming": 3
+    },
+    "items": [
+      "minecraft:copper_hoe",
+      "minecraft:brush"
+    ],
+    "blocks": [
+      "minecraft:composter"
+    ]
+  },
+  "default_farming_5": {
+    "replace": false,
+    "skills": {
+      "farming": 5
+    },
+    "items": [
+      "minecraft:fishing_rod",
+      "minecraft:shears"
+    ],
+    "entities": [
+      "minecraft:cow",
+      "minecraft:sheep"
+    ]
+  },
+  "default_farming_7": {
+    "replace": false,
+    "skills": {
+      "farming": 7
+    },
+    "items": [
+      "minecraft:golden_hoe",
+      "minecraft:golden_axe"
+    ]
+  },
+  "default_farming_8": {
+    "replace": false,
+    "skills": {
+      "farming": 8
+    },
+    "items": [
+      "minecraft:iron_hoe",
+      "minecraft:iron_axe",
+      "minecraft:bucket",
+      "minecraft:water_bucket",
+      "minecraft:cod_bucket",
+      "minecraft:salmon_bucket",
+      "minecraft:tropical_fish_bucket",
+      "minecraft:pufferfish_bucket",
+      "minecraft:axolotl_bucket",
+      "minecraft:tadpole_bucket",
+      "minecraft:lava_bucket",
+      "minecraft:powder_snow_bucket"
+    ]
+  },
+  "default_farming_10": {
+    "replace": false,
+    "skills": {
+      "farming": 10
+    },
+    "blocks": [
+      "minecraft:bee_nest",
+      "minecraft:beehive",
+      "minecraft:loom"
+    ]
+  },
+  "default_farming_15": {
+    "replace": false,
+    "skills": {
+      "farming": 15
+    },
+    "items": [
+      "minecraft:diamond_hoe",
+      "minecraft:diamond_axe"
+    ]
+  },
+  "default_farming_20": {
+    "replace": false,
+    "skills": {
+      "farming": 20
+    },
+    "items": [
+      "minecraft:netherite_hoe",
+      "minecraft:netherite_axe"
+    ]
+  },
+  "default_cooking_4": {
+    "replace": false,
+    "skills": {
+      "cooking": 4
+    },
+    "items": [
+      "minecraft:milk_bucket"
+    ]
+  },
+  "default_cooking_5": {
+    "replace": false,
+    "skills": {
+      "cooking": 5
+    },
+    "blocks": [
+      "minecraft:smoker"
+    ]
+  },
+  "default_cooking_8": {
+    "replace": false,
+    "skills": {
+      "cooking": 8
+    },
+    "blocks": [
+      "minecraft:cauldron"
+    ]
+  },
+  "default_bartering_5": {
+    "replace": false,
+    "skills": {
+      "bartering": 5
+    },
+    "entities": [
+      "minecraft:villager"
+    ]
+  },
+  "default_bartering_10": {
+    "replace": false,
+    "skills": {
+      "bartering": 10
+    },
+    "entities": [
+      "minecraft:wandering_trader"
+    ]
+  },
+  "default_bartering_15": {
+    "replace": false,
+    "skills": {
+      "bartering": 15
+    },
+    "entities": [
+      "minecraft:piglin"
+    ]
+  },
+  "default_luck_15": {
+    "replace": false,
+    "skills": {
+      "luck": 15
+    },
+    "blocks": [
+      "minecraft:beacon"
+    ]
+  },
+  "default_luck_20": {
+    "replace": false,
+    "skills": {
+      "luck": 20
+    },
+    "blocks": [
+    ]
+  }
+}

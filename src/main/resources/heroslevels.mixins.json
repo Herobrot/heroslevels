@@ -2,11 +2,42 @@
   "required": true,
   "package": "com.herobrot.heroslevels.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "plugin": "com.herobrot.heroslevels.mixin.HerosLevelsMixinPlugin",
+  "mixins": [
+    "block.AbstractFurnaceBlockEntityMixin",
+    "block.BlockMixin",
+    "block.BrewingStandBlockEntityMixin",
+    "compat.enchantinginfuser.EnchantmentComponentMixin",
+    "compat.enchantinginfuser.InfuserMenuMixin",
+    "entity.AreaEffectCloudMixin",
+    "entity.ExperienceBottleEntityMixin",
+    "entity.LivingEntityMixin",
+    "entity.PlayerExhaustionMixin",
+    "entity.ThrownPotionMixin",
+    "entity.TntEntityMixin",
+    "entity.VillagerMixin",
+    "inventory.AbstractContainerMenuMixin",
+    "inventory.CraftingMenuMixin",
+    "inventory.EnchantmentMenuMixin",
+    "inventory.SlotMixin",
+    "inventory.SmithingMenuMixin",
+    "item.ItemStackMixin",
+    "item.PotionItemMixin",
+    "misc.AnvilMenuMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "client.AbstractContainerScreenMixin",
+    "client.GuiMixin",
+    "client.SmithingScreenMixin",
+    "compat.curios.CuriosScreenMixin",
+    "compat.enchantinginfuser.EnchantingOperationButtonAddMixin",
+    "compat.enchantinginfuser.InfuserScreenEntryMixin",
+    "player.MinecraftMixin"
+  ]
 }
