@@ -5,8 +5,60 @@ on:
     tags:
       - '**'
 
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.extract.outputs.tag }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract tag and mod_version
+        id: extract
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          MC_VERSION=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
+          EXPECTED_TAG="${VERSION}+${MC_VERSION}"
+
+          echo "Tag detectado: $TAG"
+          echo "mod_version en gradle.properties: $VERSION"
+          echo "Tag esperado según gradle.properties: $EXPECTED_TAG"
+
+          if [[ "$TAG" != "$EXPECTED_TAG" ]]; then
+            echo "::error::El tag '$TAG' no coincide con el mod_version del commit ($EXPECTED_TAG)."
+            echo "::error::Probablemente el tag apunta a un commit distinto al de 'release ${VERSION}'."
+            exit 1
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Verify commit message is a release commit
+        run: |
+          MSG=$(git log -1 --pretty=%s)
+          echo "Mensaje del commit: $MSG"
+          if [[ ! "$MSG" =~ ^release[[:space:]] ]]; then
+            echo "::warning::El commit etiquetado no comienza con 'release '. Verifica que el tag esté en el commit correcto."
+          fi
+
+      - name: Check if GitHub release already exists for this tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.extract.outputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "::error::Ya existe un release de GitHub con el tag '${{ steps.extract.outputs.tag }}'."
+            echo "::error::Borra el release/tag anterior o corrige mod_version antes de re-etiquetar."
+            exit 1
+          fi
+          echo "No existe release previo para este tag, se puede continuar."
+
   publish:
+    needs: validate
     runs-on: ubuntu-latest
 
     permissions:
@@ -24,6 +76,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
 
       - name: Grant Execute Permissions to Gradlew
         run: chmod +x gradlew
