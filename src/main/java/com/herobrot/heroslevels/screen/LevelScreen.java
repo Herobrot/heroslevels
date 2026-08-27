@@ -59,14 +59,10 @@ public class LevelScreen extends Screen implements ITabbedScreen {
 
     private boolean buttonsDirty = true;
 
-    public LevelScreen() {
-        super(Component.translatable("screen.heroslevels.skill_screen"));
-    }
+    public LevelScreen() { super(Component.translatable("screen.heroslevels.skill_screen")); }
 
     @Override
-    public Class<? extends Screen> getParentScreenClass() {
-        return InventoryScreen.class;
-    }
+    public Class<? extends Screen> heroslib$getParentScreenClass() { return InventoryScreen.class; }
 
     @Override
     protected void init() {
@@ -404,8 +400,8 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     }
 
     @Override
-    public int getGuiLeft() { return this.x; }
+    public int heroslib$getGuiLeft() { return this.x; }
 
     @Override
-    public int getGuiTop() { return this.y; }
+    public int heroslib$getGuiTop() { return this.y; }
 }

@@ -18,28 +18,28 @@ public class RenderInit {
 
     public static void registerTabs() {
         Minecraft mc = Minecraft.getInstance();
-
-        TabRegistry.registerInventoryTab(new TabDefinition(
-                ResourceLocation.withDefaultNamespace("inventory"),
-                ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "textures/gui/sprites/bag_tab_icon.png"),
-                Component.translatable("screen.heroslevels.inventory_screen"),
-                InventoryScreen.class,
-                () -> mc.player != null ? new InventoryScreen(mc.player) : null,
-                0,
-                false
-        ));
-
-        TabRegistry.registerInventoryTab(new TabDefinition(
-                ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "skills"),
-                ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "textures/gui/sprites/skill_tab_icon.png"),
-                Component.translatable("screen.heroslevels.skill_screen"),
-                LevelScreen.class,
-                LevelScreen::new,
-                1,
-                false,
-                KeyInit.SCREEN_KEY,
-                () -> ConfigInit.CONFIG.switchScreen
-        ));
+        TabRegistry.registerInventoryTab(TabDefinition.builder(
+                                ResourceLocation.withDefaultNamespace("inventory"),
+                                Component.translatable("screen.heroslevels.inventory_screen"),
+                                InventoryScreen.class,
+                                0
+                        )
+                        .icon(ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "textures/gui/sprites/bag_tab_icon.png"))
+                        .onOpen(() -> mc.player != null ? new InventoryScreen(mc.player) : null)
+                        .build()
+        );
+        TabRegistry.registerInventoryTab(TabDefinition.builder(
+                                ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "skills"),
+                                Component.translatable("screen.heroslevels.skill_screen"),
+                                LevelScreen.class,
+                                1
+                        )
+                        .icon(ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "textures/gui/sprites/skill_tab_icon.png"))
+                        .onOpen(LevelScreen::new)
+                        .keyMapping(KeyInit.SCREEN_KEY)
+                        .allowKeySwitch(() -> ConfigInit.CONFIG.switchScreen)
+                        .build()
+        );
     }
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

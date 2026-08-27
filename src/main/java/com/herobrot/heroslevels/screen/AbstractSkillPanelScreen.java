@@ -31,9 +31,7 @@ public abstract class AbstractSkillPanelScreen extends Screen implements ITabbed
     }
 
     @Override
-    public Class<? extends Screen> getParentScreenClass() {
-        return InventoryScreen.class;
-    }
+    public Class<? extends Screen> heroslib$getParentScreenClass() { return InventoryScreen.class; }
 
     @Override
     protected void init() {
@@ -88,14 +86,10 @@ public abstract class AbstractSkillPanelScreen extends Screen implements ITabbed
     }
 
     @Override
-    public int getGuiLeft() {
-        return this.x;
-    }
+    public int heroslib$getGuiLeft() { return this.x; }
 
     @Override
-    public int getGuiTop() {
-        return this.y;
-    }
+    public int heroslib$getGuiTop() { return this.y; }
 
     protected void addPaginatedRestrictionLines(Map<Integer, PlayerRestriction> restrictions, int code, Map<Integer, PlayerRestriction> reusableAccumulator) {
         int count = 0;
