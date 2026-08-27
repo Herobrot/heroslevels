@@ -1,3 +1,10 @@
+## Added:
+- &nbsp;
+## Fixed:
+- &nbsp;
+## Changed
+- Updated the code for tabs for last version of HerosLib
+---
 # 1.0.0
 ## Added:
 - Initial release. This notes are comparing the last LevelZ version.
