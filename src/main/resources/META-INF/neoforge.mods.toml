@@ -34,6 +34,12 @@ versionRange="[15.0,)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies."${mod_id}"]]
+modId="heroslib"
+type="required"
+versionRange="[1.1.2,)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies."${mod_id}"]]
 modId = "enchantinginfuser"
 type = "optional"
 versionRange = "[21.1.4,)"
