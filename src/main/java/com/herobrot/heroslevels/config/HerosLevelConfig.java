@@ -217,6 +217,10 @@ public class HerosLevelConfig implements ConfigData {
     @ClientOnly
     @ConfigEntry.Gui.Tooltip //Client only
     @ConfigEntry.Category("gui_settings")
+    public boolean showLevelTab = true;
+    @ClientOnly
+    @ConfigEntry.Gui.Tooltip //Client only
+    @ConfigEntry.Category("gui_settings")
     public boolean highlightLocked = true;
     @ClientOnly
     @ConfigEntry.Gui.Tooltip //Client only

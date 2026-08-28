@@ -26,6 +26,7 @@ public class RenderInit {
                         )
                         .icon(ResourceLocation.fromNamespaceAndPath(HerosLevels.MOD_ID, "textures/gui/sprites/bag_tab_icon.png"))
                         .onOpen(() -> mc.player != null ? new InventoryScreen(mc.player) : null)
+                        .showCondition(() -> ConfigInit.CONFIG.showLevelTab)
                         .build()
         );
         TabRegistry.registerInventoryTab(TabDefinition.builder(
@@ -38,6 +39,7 @@ public class RenderInit {
                         .onOpen(LevelScreen::new)
                         .keyMapping(KeyInit.SCREEN_KEY)
                         .allowKeySwitch(() -> ConfigInit.CONFIG.switchScreen)
+                        .showCondition(() -> ConfigInit.CONFIG.showLevelTab)
                         .build()
         );
     }

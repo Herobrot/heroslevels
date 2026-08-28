@@ -113,6 +113,8 @@
   "text.autoconfig.heroslevels.option.mobXPMultiplier": "Mob XP Multiplier",
   "text.autoconfig.heroslevels.option.spawnerMobXP": "Spawner Mob XP",
 
+  "text.autoconfig.heroslevels.option.showLevelTab": "Show Level Tab",
+  "text.autoconfig.heroslevels.option.showLevelTab.@Tooltip": "Client Only",
   "text.autoconfig.heroslevels.option.highlightLocked": "Highlight Locked",
   "text.autoconfig.heroslevels.option.highlightLocked.@Tooltip": "Client Only\nHighlight locked blocks in red.",
   "text.autoconfig.heroslevels.option.availablePointsColor": "Available Points Color",

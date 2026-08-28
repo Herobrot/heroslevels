@@ -113,6 +113,8 @@
   "text.autoconfig.heroslevels.option.mobXPMultiplier": "Multiplicador de Xp de Mobs",
   "text.autoconfig.heroslevels.option.spawnerMobXP": "Xp de Mobs de Generador",
 
+  "text.autoconfig.heroslevels.option.showLevelTab": "Mostrar pestañas",
+  "text.autoconfig.heroslevels.option.showLevelTab.@Tooltip": "Solo Cliente",
   "text.autoconfig.heroslevels.option.highlightLocked": "Resaltar Bloqueados",
   "text.autoconfig.heroslevels.option.highlightLocked.@Tooltip": "Solo Cliente\nResalta en rojo los bloques bloqueados.",
   "text.autoconfig.heroslevels.option.availablePointsColor": "Color de Puntos Disponibles",
