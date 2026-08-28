@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -42,8 +43,24 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     private int x;
     private int y;
 
+    private static final int SKILL_SCROLLBAR_X = 186;
+    private static final int SKILL_SCROLLBAR_Y = 87;
+    private static final int SKILL_SLIDER_WIDTH = 6;
+    private static final int SKILL_SLIDER_HEIGHT = 34;
+    private static final int SKILL_MAX_OFFSET = 86;
+    private static final int SKILL_TRACK_HEIGHT = SKILL_MAX_OFFSET + SKILL_SLIDER_HEIGHT; // 120
+
+    private static final int ATT_SCROLLBAR_X = 270;
+    private static final int ATT_SCROLLBAR_Y = 8;
+    private static final int ATT_SLIDER_WIDTH = 6;
+    private static final int ATT_SLIDER_HEIGHT = 41;
+    private static final int ATT_MAX_OFFSET = 158;
+    private static final int ATT_TRACK_HEIGHT = ATT_MAX_OFFSET + ATT_SLIDER_HEIGHT; // 199
+
     private final Quaternionf quaternionf = new Quaternionf().rotateZ((float) Math.PI).rotateLocalY(0f);
     private boolean turnClientPlayer = false;
+    private boolean scrollingSkills = false;
+    private boolean scrollingAttributes = false;
 
     private LevelManager levelManager;
 
@@ -108,9 +125,7 @@ public class LevelScreen extends Screen implements ITabbedScreen {
         return maxRow;
     }
 
-    public void markButtonsDirty() {
-        this.buttonsDirty = true;
-    }
+    public void markButtonsDirty() { this.buttonsDirty = true; }
 
     @Override
     public void tick() {
@@ -122,10 +137,8 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             double realHeight = this.minecraft.getWindow().getHeight();
             double mouseX = this.minecraft.mouseHandler.xpos() * scaledWidth / realWidth;
             double mouseY = this.minecraft.mouseHandler.ypos() * scaledHeight / realHeight;
-            if (isPointWithinBounds(this.x + 9, this.y + 67, 15, 10, mouseX, mouseY))
-                this.quaternionf.rotateLocalY(0.087f);
-            else if (isPointWithinBounds(this.x + 41, this.y + 67, 15, 10, mouseX, mouseY))
-                this.quaternionf.rotateLocalY(-0.087f);
+            if (isPointWithinBounds(this.x + 9, this.y + 67, 15, 10, mouseX, mouseY)) this.quaternionf.rotateLocalY(0.087f);
+            else if (isPointWithinBounds(this.x + 41, this.y + 67, 15, 10, mouseX, mouseY)) this.quaternionf.rotateLocalY(-0.087f);
             else this.turnClientPlayer = false;
         }
     }
@@ -148,24 +161,21 @@ public class LevelScreen extends Screen implements ITabbedScreen {
                     guiGraphics.blit(ATTRIBUTE_BACKGROUND_TEXTURE, this.x + 202, this.y, 0, 0, 82, 215);
                     int maxAttributes = Math.min(this.attributes.size(), 15);
                     if (this.attributes.size() > 15) {
-                        int scrollLevels = this.attributes.size() - 15;
-                        int sliderY = this.attributeRow * 158 / scrollLevels;
-                        guiGraphics.blit(ATTRIBUTE_BACKGROUND_TEXTURE, this.x + 270, this.y + 8 + sliderY, 82, 0, 6, 41);
-                    } else
-                        guiGraphics.blit(ATTRIBUTE_BACKGROUND_TEXTURE, this.x + 270, this.y + 8, 88, 0, 6, 41);
+                        float progress = (float) this.attributeRow / (this.attributes.size() - 15);
+                        int sliderY = (int) (progress * ATT_MAX_OFFSET);
+                        guiGraphics.blit(ATTRIBUTE_BACKGROUND_TEXTURE, this.x + ATT_SCROLLBAR_X, this.y + ATT_SCROLLBAR_Y + sliderY, 82, 0, ATT_SLIDER_WIDTH, ATT_SLIDER_HEIGHT);
+                    } else guiGraphics.blit(ATTRIBUTE_BACKGROUND_TEXTURE, this.x + ATT_SCROLLBAR_X, this.y + ATT_SCROLLBAR_Y, 88, 0, ATT_SLIDER_WIDTH, ATT_SLIDER_HEIGHT);
                     guiGraphics.drawString(this.font, Component.translatable("text.heroslevels.gui.attributes"), this.x + 214, this.y + 12, 0xE0E0E0, false);
                     int k = 27;
                     for (int i = this.attributeRow; i < this.attributeRow + maxAttributes; i++) {
                         ResourceLocation spriteLoc = this.attributeSprites.get(i);
                         guiGraphics.blit(spriteLoc, this.x + 214, this.y + k, 0, 0, 9, 9, 9, 9);
-
                         float attributeValue = (float) Math.round(this.minecraft.player.getAttributeValue(this.attributes.get(i).attribute()) * 100.0D) / 100.0F;
                         guiGraphics.drawString(this.font, Component.literal(String.valueOf(attributeValue)), this.x + 214 + 15, this.y + k, 0xE0E0E0, false);
                         k += 12;
                     }
                 } else guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + 5, 15, 114, 15, 13);
-                if (isPointWithinBounds(this.x + 178, this.y + 5, 15, 13, mouseX, mouseY))
-                    pendingTooltip = Component.translatable("text.heroslevels.gui.attributes");
+                if (isPointWithinBounds(this.x + 178, this.y + 5, 15, 13, mouseX, mouseY)) pendingTooltip = Component.translatable("text.heroslevels.gui.attributes");
             } else guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + 5, 0, 114, 15, 13);
             Component skillLevelText = Component.translatable("text.heroslevels.gui.level", this.levelManager.getOverallLevel());
             guiGraphics.drawString(this.font, skillLevelText, this.x + 62, this.y + 42, 0x3F3F3F, false);
@@ -185,14 +195,10 @@ public class LevelScreen extends Screen implements ITabbedScreen {
 
             renderPlayerModel(guiGraphics);
 
-            if (isPointWithinBounds(this.x + 9, this.y + 67, 15, 10, mouseX, mouseY))
-                guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 138, 15, 10);
-            else
-                guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 128, 15, 10);
-            if (isPointWithinBounds(this.x + 41, this.y + 67, 15, 10, mouseX, mouseY))
-                guiGraphics.blit(ICON_TEXTURE, this.x + 41, this.y + 67, 15, 138, 15, 10);
-            else
-                guiGraphics.blit(ICON_TEXTURE, this.x + 41, this.y + 67, 15, 128, 15, 10);
+            if (isPointWithinBounds(this.x + 9, this.y + 67, 15, 10, mouseX, mouseY)) guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 138, 15, 10);
+            else guiGraphics.blit(ICON_TEXTURE, this.x + 9, this.y + 67, 0, 128, 15, 10);
+            if (isPointWithinBounds(this.x + 41, this.y + 67, 15, 10, mouseX, mouseY)) guiGraphics.blit(ICON_TEXTURE, this.x + 41, this.y + 67, 15, 138, 15, 10);
+            else guiGraphics.blit(ICON_TEXTURE, this.x + 41, this.y + 67, 15, 128, 15, 10);
             if (pendingTooltip != null) guiGraphics.renderTooltip(this.font, pendingTooltip, mouseX, mouseY);
         }
     }
@@ -203,7 +209,6 @@ public class LevelScreen extends Screen implements ITabbedScreen {
                 guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + yOffset, uHover, 80, 15, 13);
                 return Component.translatable("restriction.heroslevels." + type);
             } else guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + yOffset, uNormal, 80, 15, 13);
-
         } else guiGraphics.blit(ICON_TEXTURE, this.x + 178, this.y + yOffset, uEmpty, 80, 15, 13);
         return null;
     }
@@ -220,13 +225,9 @@ public class LevelScreen extends Screen implements ITabbedScreen {
         this.minecraft.player.yHeadRotO = 180.0F;
         InventoryScreen.renderEntityInInventory(
                 guiGraphics,
-                this.x + 33,
-                this.y + 43,
-                30,
+                this.x + 33, this.y + 43, 30,
                 new Vector3f(0.0F, this.minecraft.player.getBbHeight() / 2.0F, 0.0F),
-                this.quaternionf,
-                null,
-                this.minecraft.player
+                this.quaternionf, null, this.minecraft.player
         );
         this.minecraft.player.yBodyRot = realYBodyRot;
         this.minecraft.player.yBodyRotO = realYBodyRotO;
@@ -249,20 +250,18 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             guiGraphics.blit(spriteLoc, iconX, iconY, 0, 0, 16, 16, 16, 16);
             Component skillLevel = Component.translatable("text.heroslevels.gui.current_level", this.levelManager.getSkillLevel(skillId), skill.maxLevel());
             guiGraphics.drawString(this.font, skillLevel, this.x + (i % 2 == 0 ? 53 : 141) - this.font.width(skillLevel) / 2, this.y + 94 + i / 2 * 20, 0x3F3F3F, false);
-            if (isPointWithinBounds(iconX, iconY, 16, 16, mouseX, mouseY))
-                guiGraphics.renderTooltip(this.font, skill.getText(), mouseX, mouseY);
+            if (isPointWithinBounds(iconX, iconY, 16, 16, mouseX, mouseY)) guiGraphics.renderTooltip(this.font, skill.getText(), mouseX, mouseY);
         }
         int maxSkillScroll = getMaxSkillScroll();
         if (maxSkillScroll > 0) {
-            int sliderY = this.skillRow * 86 / maxSkillScroll;
-            guiGraphics.blit(BACKGROUND_TEXTURE, this.x + 186, this.y + 87 + sliderY, 200, 0, 6, 34);
-        } else guiGraphics.blit(BACKGROUND_TEXTURE, this.x + 186, this.y + 87, 206, 0, 6, 34);
+            float progress = (float) this.skillRow / maxSkillScroll;
+            int sliderY = (int) (progress * SKILL_MAX_OFFSET);
+            guiGraphics.blit(BACKGROUND_TEXTURE, this.x + SKILL_SCROLLBAR_X, this.y + SKILL_SCROLLBAR_Y + sliderY, 200, 0, SKILL_SLIDER_WIDTH, SKILL_SLIDER_HEIGHT);
+        } else guiGraphics.blit(BACKGROUND_TEXTURE, this.x + SKILL_SCROLLBAR_X, this.y + SKILL_SCROLLBAR_Y, 206, 0, SKILL_SLIDER_WIDTH, SKILL_SLIDER_HEIGHT);
     }
 
     @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
+    public boolean isPauseScreen() { return false; }
 
     public void updateLevelButtons() {
         boolean maxedAllSkills = false;
@@ -274,7 +273,6 @@ public class LevelScreen extends Screen implements ITabbedScreen {
                     break;
                 }
         }
-
         for (int i = 0; i < this.levelButtons.length; i++) {
             if (this.levelButtons[i] == null) break;
             int skillId = i + this.skillRow * 2;
@@ -284,10 +282,8 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             }
             this.levelButtons[i].visible = true;
             Skill skill = LevelManager.SKILLS.get(skillId);
-            if (ConfigInit.CONFIG.overallMaxLevel > 0 && this.levelManager.getOverallLevel() >= ConfigInit.CONFIG.overallMaxLevel)
-                this.levelButtons[i].active = false;
-            else if (skill.maxLevel() <= this.levelManager.getPlayerSkills().get(skillId).getLevel())
-                this.levelButtons[i].active = false;
+            if (ConfigInit.CONFIG.overallMaxLevel > 0 && this.levelManager.getOverallLevel() >= ConfigInit.CONFIG.overallMaxLevel) this.levelButtons[i].active = false;
+            else if (skill.maxLevel() <= this.levelManager.getPlayerSkills().get(skillId).getLevel()) this.levelButtons[i].active = false;
             else this.levelButtons[i].active = this.levelManager.getSkillPoints() > 0;
             if (maxedAllSkills) this.levelButtons[i].active = true;
         }
@@ -300,12 +296,30 @@ public class LevelScreen extends Screen implements ITabbedScreen {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (this.turnClientPlayer) this.turnClientPlayer = false;
+        if (button == 0) {
+            if (this.turnClientPlayer) this.turnClientPlayer = false;
+            if (this.scrollingSkills) this.scrollingSkills = false;
+            if (this.scrollingAttributes) this.scrollingAttributes = false;
+        }
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0) {
+            if (this.showAttributes && this.attributes.size() > 15 && isPointWithinBounds(this.x + ATT_SCROLLBAR_X, this.y + ATT_SCROLLBAR_Y, ATT_SLIDER_WIDTH, ATT_TRACK_HEIGHT, mouseX, mouseY)) {
+                this.scrollingAttributes = true;
+                updateAttributeScrollFromMouse(mouseY);
+                return true;
+            }
+            int maxSkillScroll = getMaxSkillScroll();
+            if (maxSkillScroll > 0 && isPointWithinBounds(this.x + SKILL_SCROLLBAR_X, this.y + SKILL_SCROLLBAR_Y, SKILL_SLIDER_WIDTH, SKILL_TRACK_HEIGHT, mouseX, mouseY)) {
+                this.scrollingSkills = true;
+                updateSkillScrollFromMouse(mouseY);
+                return true;
+            }
+        }
+
         if (!this.attributes.isEmpty() && isPointWithinBounds(this.x + 178, this.y + 5, 15, 13, mouseX, mouseY)) {
             this.showAttributes = !this.showAttributes;
             if (this.minecraft != null) this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
@@ -351,6 +365,38 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     }
 
     @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (button == 0) {
+            if (this.scrollingAttributes) {
+                updateAttributeScrollFromMouse(mouseY);
+                return true;
+            } else if (this.scrollingSkills) {
+                updateSkillScrollFromMouse(mouseY);
+                return true;
+            }
+        }
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    private void updateAttributeScrollFromMouse(double mouseY) {
+        float progress = ((float) mouseY - (this.y + ATT_SCROLLBAR_Y) - (ATT_SLIDER_HEIGHT / 2.0f)) / ATT_MAX_OFFSET;
+        progress = Mth.clamp(progress, 0.0F, 1.0F);
+        int maxAttributeRow = this.attributes.size() - 15;
+        this.attributeRow = Math.round(progress * maxAttributeRow);
+    }
+
+    private void updateSkillScrollFromMouse(double mouseY) {
+        float progress = ((float) mouseY - (this.y + SKILL_SCROLLBAR_Y) - (SKILL_SLIDER_HEIGHT / 2.0f)) / SKILL_MAX_OFFSET;
+        progress = Mth.clamp(progress, 0.0F, 1.0F);
+        int maxSkillScroll = getMaxSkillScroll();
+        if (maxSkillScroll > 0) {
+            int oldSkillRow = this.skillRow;
+            this.skillRow = Math.round(progress * maxSkillScroll);
+            if (oldSkillRow != this.skillRow) this.buttonsDirty = true;
+        }
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.showAttributes && this.attributes.size() > 15 && isPointWithinBounds(this.x + 209, this.y + 7, 68, 201, mouseX, mouseY)) {
             int maxAttributeRow = this.attributes.size() - 15;
@@ -385,8 +431,7 @@ public class LevelScreen extends Screen implements ITabbedScreen {
         protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
             int i = this.hoverOutline ? this.getStateFrameIndex() : 0;
             guiGraphics.blit(ICON_TEXTURE, this.getX(), this.getY(), this.textureX + i * this.width, this.textureY, this.width, this.height);
-            if (this.isHovered() && !this.tooltip.isEmpty())
-                guiGraphics.renderTooltip(Minecraft.getInstance().font, this.tooltip, Optional.empty(), mouseX, mouseY);
+            if (this.isHovered() && !this.tooltip.isEmpty()) guiGraphics.renderTooltip(Minecraft.getInstance().font, this.tooltip, Optional.empty(), mouseX, mouseY);
         }
 
         private int getStateFrameIndex() {
