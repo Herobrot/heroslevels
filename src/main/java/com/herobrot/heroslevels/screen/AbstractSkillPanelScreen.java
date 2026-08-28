@@ -50,13 +50,17 @@ public abstract class AbstractSkillPanelScreen extends Screen implements ITabbed
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.drawString(this.font, this.title, this.x + 7, this.y + 7, 0x3F3F3F, false);
         renderExtraHeader(guiGraphics, mouseX, mouseY, partialTick);
+        List<Component> pendingTooltip = null;
         int currentY = this.y + 24;
         for (int i = this.lineIndex; i < this.lines.size(); i++) {
             LineWidget widget = this.lines.get(i);
-            widget.render(guiGraphics, this.x + 12, currentY, mouseX, mouseY);
+            List<Component> tooltip = widget.render(guiGraphics, this.x + 12, currentY, mouseX, mouseY);
+            if (tooltip != null) pendingTooltip = tooltip;
             currentY += widget.getHeight();
             if (currentY > this.y + 194) break;
         }
+        if (pendingTooltip != null)
+            guiGraphics.renderTooltip(this.font, pendingTooltip, Optional.empty(), mouseX, mouseY);
     }
 
     protected void renderExtraHeader(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {}

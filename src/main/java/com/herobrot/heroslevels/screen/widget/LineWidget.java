@@ -92,7 +92,7 @@ public class LineWidget {
         return 18;
     }
 
-    public void render(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
+    public List<Component> render(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
         if (this.text != null && this.wrappedText != null) {
             int color = this.isHeader ? ConfigInit.CONFIG.headerBoldTextColor : ConfigInit.CONFIG.normalTextColor;
             int offsetY = 4;
@@ -100,9 +100,10 @@ public class LineWidget {
                 guiGraphics.drawString(this.client.font, line, x, y + offsetY, color, true);
                 offsetY += 9;
             }
+            return null;
         } else if (this.restrictions != null) {
             int separator = 0;
-            boolean showTooltip = false;
+            List<Component> pendingTooltip = null; // Aquí guardaremos el tooltip
             for (Map.Entry<Integer, PlayerRestriction> entry : this.restrictions.entrySet()) {
                 Component tooltipTitle = null;
                 guiGraphics.blit(LevelScreen.ICON_TEXTURE, x + separator - 1, y - 1, 0, 148, 18, 18);
@@ -142,7 +143,7 @@ public class LineWidget {
                         }
                     }
                 }
-                if (!showTooltip && tooltipTitle != null && LevelScreen.isPointWithinBounds(x + separator, y, 16, 16, mouseX, mouseY)) {
+                if (pendingTooltip == null && tooltipTitle != null && LevelScreen.isPointWithinBounds(x + separator, y, 16, 16, mouseX, mouseY)) {
                     List<Component> tooltip = new ArrayList<>();
                     tooltip.add(tooltipTitle);
                     for (Map.Entry<Integer, Integer> restriction : entry.getValue().skillLevelRestrictions().entrySet()) {
@@ -150,11 +151,12 @@ public class LineWidget {
                         Component levelStr = Component.translatable("text.heroslevels.gui.short_level", restriction.getValue());
                         tooltip.add(Component.empty().append(skillName).append(" ").append(levelStr));
                     }
-                    guiGraphics.renderTooltip(this.client.font, tooltip, Optional.empty(), mouseX, mouseY);
-                    showTooltip = true;
+                    pendingTooltip = tooltip;
                 }
                 separator += 18;
             }
+            return pendingTooltip;
         }
+        return null;
     }
 }
