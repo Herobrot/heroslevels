@@ -1,3 +1,13 @@
+# 1.0.2
+## Added:
+- Added click and drag for the scroll bar
+- Added option to turn off the tabs
+- Added compat for LegendaryTabs (this fix is from HerosLib side)
+## Fixed:
+- Tried to fix a Tooltip bug on Restriction Screens
+## Changed
+- &nbsp;
+---
 # 1.0.1
 ## Added:
 - &nbsp;
