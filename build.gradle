@@ -94,6 +94,8 @@ dependencies {
     //Test
     //runtimeOnly("com.herobrot.scalingdifficulty:scalingdifficulty:${scalingdifficulty_version}")
     //runtimeOnly("com.herobrot.levelplate:levelplate:${levelplate_version}")
+    //implementation "maven.modrinth:legendary-survival-overhaul:1.21.1-2.4.7.2"
+    //implementation "sfiomn.legendarytabs:legendarytabs:1.21.1-2.0"
 
     //Fuzs mods -> tested and compatible <-
 
