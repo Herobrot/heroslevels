@@ -13,11 +13,15 @@ public class DatapackSyncEvents {
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        if (event.getPlayer() != null) LevelHelper.applyAllSkills(event.getPlayer());
-        else
-            for (ServerPlayer player : event.getPlayerList().getPlayers()) {
-                LevelHelper.applyAllSkills(player);
-                PacketHelper.updateLevels(player);
-            }
+        if (event.getPlayer() != null) syncDatapackData(event.getPlayer());
+        else for (ServerPlayer player : event.getPlayerList().getPlayers()) syncDatapackData(player);
+    }
+
+    private static void syncDatapackData(ServerPlayer player) {
+        PacketHelper.updateSkills(player);
+        PacketHelper.syncEnchantments(player);
+        PacketHelper.syncRestrictions(player);
+        LevelHelper.applyAllSkills(player);
+        PacketHelper.updateLevels(player);
     }
 }

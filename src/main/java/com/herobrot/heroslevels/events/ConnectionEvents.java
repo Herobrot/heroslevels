@@ -17,20 +17,17 @@ public class ConnectionEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer)
-            syncAllData(serverPlayer, true);
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) syncAllData(serverPlayer, true);
     }
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer)
-            syncAllData(serverPlayer, false);
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) syncAllData(serverPlayer, false);
     }
 
     @SubscribeEvent
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer)
-            syncAllData(serverPlayer, false);
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) syncAllData(serverPlayer, false);
     }
 
     private static void syncAllData(ServerPlayer serverPlayer, boolean isFirstLogin) {
@@ -40,11 +37,11 @@ public class ConnectionEvents {
                 PacketDistributor.sendToPlayer(serverPlayer, new GenericConfigSyncPayload(HerosLevels.MOD_ID, cleanJson));
                 PacketHelper.updateSkills(serverPlayer);
                 PacketHelper.syncEnchantments(serverPlayer);
+                PacketHelper.syncRestrictions(serverPlayer);
             }
             PacketHelper.syncPlayerSkills(serverPlayer);
             PacketHelper.updateLevels(serverPlayer);
             LevelHelper.applyAllSkills(serverPlayer);
-
         } catch (Exception e) {
             HerosLevels.LOGGER.error("[Hero's Levels-ERROR]: Error sincronizando datos con el cliente para {}",
                     serverPlayer.getScoreboardName(), e);

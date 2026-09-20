@@ -26,5 +26,7 @@ public class NetworkInit {
                 LevelPacket.TYPE, LevelPacket.STREAM_CODEC, ClientPayloadHandler::handleLevel);
         PayloadRegistryManager.registerClientbound(HerosLevels.MOD_ID, mod_version,
                 EnchantmentPacket.TYPE, EnchantmentPacket.STREAM_CODEC, ClientPayloadHandler::handleEnchantment);
+        PayloadRegistryManager.registerClientbound(HerosLevels.MOD_ID, mod_version,
+                RestrictionsSyncPacket.TYPE, RestrictionsSyncPacket.STREAM_CODEC, ClientPayloadHandler::handleRestrictionsSync);
     }
 }

@@ -4,10 +4,15 @@ import com.herobrot.heroslevels.init.AttachmentInit;
 import com.herobrot.heroslevels.level.LevelManager;
 import com.herobrot.heroslevels.level.Skill;
 import com.herobrot.heroslevels.level.SkillBonus;
+import com.herobrot.heroslevels.level.restriction.PlayerRestriction;
 import com.herobrot.heroslevels.network.packet.*;
 import com.herobrot.heroslevels.registry.EnchantmentRegistry;
 import com.herobrot.heroslevels.registry.HerosEnchantment;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -75,5 +80,49 @@ public class PacketHelper {
             });
         }
         PacketDistributor.sendToPlayer(serverPlayer, new EnchantmentPacket(EnchantmentRegistry.INDEX_ENCHANTMENTS, keys, ids, levels));
+    }
+
+    public static void syncRestrictions(ServerPlayer serverPlayer) {
+        PacketDistributor.sendToPlayer(serverPlayer, new RestrictionsSyncPacket(
+                toRecords(LevelManager.BLOCK_RESTRICTIONS, BuiltInRegistries.BLOCK),
+                toRecords(LevelManager.CRAFTING_RESTRICTIONS, BuiltInRegistries.ITEM),
+                toRecords(LevelManager.ENTITY_RESTRICTIONS, BuiltInRegistries.ENTITY_TYPE),
+                toRecords(LevelManager.ITEM_RESTRICTIONS, BuiltInRegistries.ITEM),
+                toRecords(LevelManager.MINING_RESTRICTIONS, BuiltInRegistries.BLOCK),
+                toEnchantmentRecords(),
+                toRecords(LevelManager.BREWING_RESTRICTIONS, BuiltInRegistries.POTION)
+        ));
+    }
+
+    private static <T> List<RestrictionsSyncPacket.RestrictionRecord> toRecords(Map<Integer, PlayerRestriction> restrictions, Registry<T> registry) {
+        List<RestrictionsSyncPacket.RestrictionRecord> records = new ArrayList<>();
+        for (PlayerRestriction restriction : restrictions.values()) {
+            T value = registry.byId(restriction.id());
+            if (value == null) continue;
+            ResourceLocation targetId = registry.getKey(value);
+            if (targetId == null) continue;
+            records.add(new RestrictionsSyncPacket.RestrictionRecord(targetId.toString(), toSkillRecords(restriction)));
+        }
+        return records;
+    }
+
+    private static List<RestrictionsSyncPacket.EnchantmentRestrictionRecord> toEnchantmentRecords() {
+        List<RestrictionsSyncPacket.EnchantmentRestrictionRecord> records = new ArrayList<>();
+        for (PlayerRestriction restriction : LevelManager.ENCHANTMENT_RESTRICTIONS.values()) {
+            HerosEnchantment enchantment = EnchantmentRegistry.getHerosEnchantment(restriction.id());
+            if (enchantment == null) continue;
+            ResourceLocation enchantmentId = enchantment.entry().unwrapKey().map(ResourceKey::location).orElse(null);
+            if (enchantmentId == null) continue;
+            records.add(new RestrictionsSyncPacket.EnchantmentRestrictionRecord(
+                    enchantmentId.toString(), enchantment.level(), toSkillRecords(restriction)));
+        }
+        return records;
+    }
+
+    private static List<RestrictionsSyncPacket.SkillLevelRecord> toSkillRecords(PlayerRestriction restriction) {
+        List<RestrictionsSyncPacket.SkillLevelRecord> skills = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : restriction.skillLevelRestrictions().entrySet())
+            skills.add(new RestrictionsSyncPacket.SkillLevelRecord(entry.getKey(), entry.getValue()));
+        return skills;
     }
 }
