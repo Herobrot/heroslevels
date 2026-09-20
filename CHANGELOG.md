@@ -1,3 +1,11 @@
+# 1.0.4
+## Added:
+- &nbsp;
+## Fixed:
+- Accessories bad range version. Making crash whenever having the Accessories mod.
+## Changed
+- &nbsp;
+---
 # 1.0.3
 ## Added:
 - New methods and Javadoc explanation in the API from the mod. This is just an add-on for modders who want to take advantage of Hero's Levels.
