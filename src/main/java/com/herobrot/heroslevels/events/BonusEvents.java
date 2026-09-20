@@ -63,7 +63,6 @@ public class BonusEvents {
     @SubscribeEvent
     public static void onArrowSpawn(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
-
         if (event.getEntity() instanceof AbstractArrow arrow && arrow.getOwner() instanceof Player player)
             if (player.getMainHandItem().getItem() instanceof BowItem
                     || player.getOffhandItem().getItem() instanceof BowItem)
@@ -86,8 +85,7 @@ public class BonusEvents {
     @SuppressWarnings("resource")
     public static void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity().level().isClientSide()) return;
-        if (event.getEntity() instanceof Player player
-                && event.getItem().has(DataComponents.FOOD))
+        if (event.getEntity() instanceof Player player && event.getItem().has(DataComponents.FOOD))
             BonusHelper.foodIncreasionBonus(player, event.getItem());
     }
 
@@ -104,8 +102,7 @@ public class BonusEvents {
     public static void onLivingFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             float reduction = BonusHelper.fallDamageReductionBonus(player);
-            if (reduction > 0)
-                event.setDistance(Math.max(0, event.getDistance() - reduction));
+            if (reduction > 0) event.setDistance(Math.max(0, event.getDistance() - reduction));
         }
     }
 
