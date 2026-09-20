@@ -1,3 +1,12 @@
+# 1.0.3
+## Added:
+- New methods and Javadoc explanation in the API from the mod. This is just an add-on for modders who want to take advantage of Hero's Levels.
+## Fixed:
+- A server-side bug when the restrictions can't be loaded for players
+## Changed
+- "damageReflection" & "damageReflectionChance" now can be applied in any skills and also be cumulative if they are registered in more than one Skill. Previously, both bonuses had to be part of a single skill; if they were added individually to another skill, they would cancel each other out.
+- Bump HerosLib requirement (now 1.2.1+1.21.1).
+---
 # 1.0.2
 ## Added:
 - Added click and drag for the scroll bar
