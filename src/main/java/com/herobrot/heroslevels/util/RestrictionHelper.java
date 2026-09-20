@@ -71,8 +71,7 @@ public class RestrictionHelper {
         if (recipe == null) return false;
         ItemStack result = recipe.value().getResultItem(level.registryAccess());
         if (result.isEmpty()) return false;
-        int itemId = BuiltInRegistries.ITEM.getId(result.getItem());
-        if (!LevelManager.CRAFTING_RESTRICTIONS.containsKey(itemId)) return false;
+        if (!LevelManager.hasCraftingRestriction(result.getItem())) return false;
         List<ServerPlayer> viewers = getViewers(level, pos, AbstractFurnaceMenu.class);
         if (viewers.isEmpty()) return false;
         for (ServerPlayer player : viewers)
@@ -111,8 +110,7 @@ public class RestrictionHelper {
                 optional = level.getRecipeManager().getRecipeFor(type, recipeInput, level);
         if (optional.isEmpty()) return;
         ItemStack result = optional.get().value().getResultItem(level.registryAccess());
-        if (result.isEmpty() || !LevelManager.CRAFTING_RESTRICTIONS
-                .containsKey(BuiltInRegistries.ITEM.getId(result.getItem()))) return;
+        if (result.isEmpty() || !LevelManager.hasCraftingRestriction(result.getItem())) return;
         LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
         if (levelManager.hasRequiredCraftingLevel(result.getItem())) return;
         List<ServerPlayer> viewers = getViewers(level, blockEntity.getBlockPos(), AbstractFurnaceMenu.class);

@@ -161,23 +161,24 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
                 float excessXpRatio = this.levelProgress - 1.0F;
                 float excessXpFlat = excessXpRatio * (float) getNextLevelExperience();
                 int oldLevel = this.overallLevel;
-                addExperienceLevels(1);
-                HerosLevelUpEvent event = new HerosLevelUpEvent(this.playerEntity, oldLevel, this.overallLevel);
-                if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
-                    CriteriaInit.LEVEL_UP.get().trigger(serverPlayer);
-                    PacketHelper.refreshTabListDisplay(serverPlayer);
-                    if (this.overallLevel > 0)
-                        serverPlayer.level().playSound(
-                                null,
-                                serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(),
-                                net.minecraft.sounds.SoundEvents.PLAYER_LEVELUP,
-                                net.minecraft.sounds.SoundSource.PLAYERS,
-                                1.0F, 1.0F
-                        );
+                HerosLevelUpEvent event = new HerosLevelUpEvent(this.playerEntity, oldLevel, oldLevel + 1);
+                if (NeoForge.EVENT_BUS.post(event).isCanceled()) {
+                    this.levelProgress = 0.999F;
+                    break;
                 }
+                addExperienceLevels(1);
+                CriteriaInit.LEVEL_UP.get().trigger(serverPlayer);
+                PacketHelper.refreshTabListDisplay(serverPlayer);
+                if (this.overallLevel > 0)
+                    serverPlayer.level().playSound(
+                            null,
+                            serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(),
+                            net.minecraft.sounds.SoundEvents.PLAYER_LEVELUP,
+                            net.minecraft.sounds.SoundSource.PLAYERS,
+                            1.0F, 1.0F
+                    );
                 if (isMaxLevel()) this.levelProgress = 0.0F;
                 else this.levelProgress = excessXpFlat / getNextLevelExperience();
-
             }
         }
     }
@@ -235,6 +236,10 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
     // --- Crafting Restrictions ---
     public boolean hasRequiredCraftingLevel(Item item) {
         return hasRequiredLevel(CRAFTING_RESTRICTIONS, BuiltInRegistries.ITEM.getId(item));
+    }
+
+    public static boolean hasCraftingRestriction(Item item) {
+        return CRAFTING_RESTRICTIONS.containsKey(BuiltInRegistries.ITEM.getId(item));
     }
 
     // --- Entity Restrictions ---

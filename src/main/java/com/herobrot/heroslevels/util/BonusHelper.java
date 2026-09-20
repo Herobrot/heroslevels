@@ -291,26 +291,9 @@ public class BonusHelper {
     @SuppressWarnings("resource")
     public static void damageReflectionBonus(Player player, DamageSource source, float amount) {
         if (source.getEntity() == null || player.level().isClientSide()) return;
-        LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
-        List<SkillBonus> chanceContributions = LevelManager.BONUSES.getOrDefault("damageReflectionChance", List.of());
-        List<SkillBonus> reflectContributions = LevelManager.BONUSES.getOrDefault("damageReflection", List.of());
-        double totalReflected = 0.0;
-        for (SkillBonus chanceBonus : chanceContributions) {
-            int chanceLevel = levelManager.getSkillLevel(chanceBonus.id());
-            if (chanceLevel < chanceBonus.level()) continue;
-            if (player.getRandom().nextFloat() > chanceLevel * ConfigInit.CONFIG.damageReflectionChanceBonus) continue;
-            SkillBonus matchingReflect = reflectContributions.stream()
-                    .filter(r -> r.id() == chanceBonus.id())
-                    .findFirst()
-                    .orElse(null);
-
-            if (matchingReflect == null) continue;
-            int reflectLevel = levelManager.getSkillLevel(matchingReflect.id());
-            if (reflectLevel >= matchingReflect.level())
-                totalReflected += reflectLevel * ConfigInit.CONFIG.damageReflectionBonus;
-        }
-        if (totalReflected > 0)
-            source.getEntity().hurt(source, amount * (float) totalReflected);
+        if (!anyChance(player, "damageReflectionChance", level -> level * ConfigInit.CONFIG.damageReflectionChanceBonus)) return;
+        double totalReflected = sumBonus(player, "damageReflection", level -> level * ConfigInit.CONFIG.damageReflectionBonus);
+        if (totalReflected > 0) source.getEntity().hurt(source, amount * (float) totalReflected);
     }
 
     public static boolean evadingDamageBonus(Player player) {
