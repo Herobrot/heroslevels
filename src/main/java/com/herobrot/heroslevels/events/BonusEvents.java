@@ -4,6 +4,7 @@ import com.herobrot.heroslevels.HerosLevels;
 import com.herobrot.heroslevels.util.BonusHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -37,7 +38,7 @@ public class BonusEvents {
         DamageSource source = event.getSource();
         if (event.getEntity() instanceof Player player) {
             BonusHelper.damageReflectionBonus(player, source, event.getOriginalDamage());
-            if (BonusHelper.evadingDamageBonus(player)) {
+            if (!(source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) && BonusHelper.evadingDamageBonus(player)) {
                 event.setNewDamage(0.0F);
                 return;
             }
@@ -120,8 +121,7 @@ public class BonusEvents {
 
     @SubscribeEvent
     public static void onVillagerTarget(LivingChangeTargetEvent event) {
-        if (event.getEntity() instanceof AbstractVillager && event.getTargetType() instanceof Player player
-                && BonusHelper.merchantImmuneBonus(player))
+        if (event.getEntity() instanceof AbstractVillager && event.getNewAboutToBeSetTarget() instanceof Player player && BonusHelper.merchantImmuneBonus(player))
             event.setCanceled(true);
     }
 
