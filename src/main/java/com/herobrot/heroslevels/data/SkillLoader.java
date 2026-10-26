@@ -32,12 +32,11 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
         String key;
         int maxLevel;
         final List<SkillAttribute> attributes = new ArrayList<>();
-        final Set<ResourceLocation> baseOverrideAttributeTypes = new HashSet<>();
+        final Set<ResourceLocation> loadedAttributeTypes = new HashSet<>();
         int nextAttributeId = 0;
+        String keySourceFile;
 
-        boolean isEmpty() {
-            return key == null;
-        }
+        boolean isEmpty() { return key == null; }
     }
 
     @Override
@@ -53,43 +52,64 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
                         && id.getPath().equals("default")) { return; }
                 JsonObject data = element.getAsJsonObject();
                 for (String mapKey : data.keySet())
-                    processSkillEntry(data.getAsJsonObject(mapKey), mapKey, builders, replaceLocked);
+                    processSkillEntry(data.getAsJsonObject(mapKey), mapKey, builders, replaceLocked, id);
             } catch (Exception e) {
                 LOGGER.error("[Hero's Levels-ERROR]: Error cargando recurso {}: {}", id, e);
             }
         });
+        Map<String, String> keyOwners = new HashMap<>();
         for (Map.Entry<Integer, SkillBuilder> entry : builders.entrySet()) {
             int identification = entry.getKey();
             SkillBuilder builder = entry.getValue();
+            String previousFile = keyOwners.putIfAbsent(builder.key, builder.keySourceFile);
+            if (previousFile != null) {
+                LOGGER.error("[Hero's Levels-ERROR]: La skill con id {} (archivo {}) usa la key '{}' ya definida en '{}'; se descarta para evitar la colisión de modificadores. El id del datapack no corresponde a la skill que declara.",
+                        identification, builder.keySourceFile, builder.key, previousFile);
+                continue;
+            }
             LevelManager.SKILLS.put(identification, new Skill(identification, builder.key, builder.maxLevel, builder.attributes));
         }
         int totalSkills = LevelManager.SKILLS.size();
         for (int i = 0; i < totalSkills; i++)
-            if (!LevelManager.SKILLS.containsKey(i))
-                LOGGER.error("[Hero's Levels-ERROR]: Falta la skill con id {}", i);
+            if (!LevelManager.SKILLS.containsKey(i)) LOGGER.error("[Hero's Levels-ERROR]: Falta la skill con id {}", i);
+        Set<String> seenKeys = new HashSet<>();
+        for (Skill skill : LevelManager.SKILLS.values())
+            if (!seenKeys.add(skill.key())) LOGGER.error("[Hero's Levels-ERROR]: La skill con id {} duplica la key '{}' ya usada por otra skill; sus modificadores colisionarán.", skill.id(), skill.key());
     }
 
-    private static void processSkillEntry(JsonObject skillJsonObject, String mapKey, Map<Integer, SkillBuilder> builders, Set<Integer> replaceLocked) {
+    private static void processSkillEntry(JsonObject skillJsonObject, String mapKey, Map<Integer, SkillBuilder> builders, Set<Integer> replaceLocked, ResourceLocation file) {
         int identification = skillJsonObject.get("id").getAsInt();
         if (replaceLocked.contains(identification)) {
-            LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) ya fue reemplazada con 'replace: true' en otro archivo; " +
-                    "se ignora esta definición adicional.", mapKey, identification);
+            LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) ya fue reemplazada con 'replace: true' en otro archivo; se ignora esta definición adicional.", mapKey, identification);
             return;
         }
         boolean replace = skillJsonObject.has("replace") && skillJsonObject.get("replace").getAsBoolean();
+        SkillBuilder previous = builders.get(identification);
+        if (replace && previous != null && !previous.isEmpty() && skillJsonObject.has("key") && !skillJsonObject.get("key").getAsString().equals(previous.key)) {
+            LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}, archivo {}) usa 'replace: true' y va a sobrescribir a la skill '{}' (archivo '{}'); verifica que el id corresponda a la skill que quieres reemplazar.",
+                    mapKey, identification, file, previous.key, previous.keySourceFile);
+        }
         if (replace) {
             builders.put(identification, new SkillBuilder());
             replaceLocked.add(identification);
             purgeBonusContributions(identification);
         }
+
         SkillBuilder builder = builders.computeIfAbsent(identification, i -> new SkillBuilder());
 
         if (builder.isEmpty()) {
             builder.key = skillJsonObject.get("key").getAsString();
             builder.maxLevel = skillJsonObject.get("level").getAsInt();
-        } else if (!replace && (skillJsonObject.has("key") || skillJsonObject.has("level")))
-            LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) intenta redefinir 'key'/'level' sin 'replace: true'; " +
-                    "esos campos se ignoran, solo se fusionan attributes/bonus.", mapKey, identification);
+            builder.keySourceFile = file.toString();
+        } else {
+            if (skillJsonObject.has("key") && !skillJsonObject.get("key").getAsString().equals(builder.key)) {
+                LOGGER.error("[Hero's Levels-ERROR]: La skill {} (id {}, archivo {}) declara la key '{}' pero ese id ya pertenece a la skill '{}' (archivo '{}'); la entrada se descarta completa.",
+                        mapKey, identification, file, skillJsonObject.get("key").getAsString(), builder.key, builder.keySourceFile);
+                return;
+            }
+            if (!replace && (skillJsonObject.has("key") || skillJsonObject.has("level")))
+                LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) intenta redefinir 'key'/'level' sin 'replace: true'; esos campos se ignoran, solo se fusionan attributes/bonus.", mapKey, identification);
+        }
 
         if (skillJsonObject.has("attributes"))
             loadAttributes(skillJsonObject.getAsJsonArray("attributes"), builder, identification, mapKey);
@@ -101,9 +121,15 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
         for (JsonElement attributeElement : attributesArray) {
             JsonObject attributeJsonObject = attributeElement.getAsJsonObject();
             ResourceLocation attrTypeId = ResourceLocation.parse(attributeJsonObject.get("type").getAsString());
+            if (builder.loadedAttributeTypes.contains(attrTypeId)) {
+                LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) re-declara el atributo {} que ya está definido. Se conserva la primera definición y se omite esta.",
+                        mapKey, identification, attrTypeId);
+                continue;
+            }
+            builder.loadedAttributeTypes.add(attrTypeId);
             var optionalAttribute = BuiltInRegistries.ATTRIBUTE.getOptional(attrTypeId);
             if (optionalAttribute.isEmpty()) {
-                LOGGER.warn("Atributo {} invalido en la skill {}.", attrTypeId, identification);
+                LOGGER.warn("[Hero's Levels-WARN]: Atributo {} invalido en la skill {}.", attrTypeId, identification);
                 continue;
             }
 
@@ -111,16 +137,7 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
             float levelValue = attributeJsonObject.get("value").getAsFloat();
             AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(attributeJsonObject.get("operation").getAsString().toUpperCase());
             float baseValue = SkillAttribute.NO_BASE_VALUE_OVERRIDE;
-            if (attributeJsonObject.has("base")) {
-                if (builder.baseOverrideAttributeTypes.contains(attrTypeId))
-                    LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) tiene múltiples definiciones de 'base' " +
-                            "para el atributo {}; se ignora esta segunda declaración.",
-                            mapKey, identification, attrTypeId);
-                else {
-                    baseValue = attributeJsonObject.get("base").getAsFloat();
-                    builder.baseOverrideAttributeTypes.add(attrTypeId);
-                }
-            }
+            if (attributeJsonObject.has("base")) baseValue = attributeJsonObject.get("base").getAsFloat();
             int displayGroupId = attributeJsonObject.has("id") ? attributeJsonObject.get("id").getAsInt() : SkillAttribute.NO_DISPLAY_GROUP;
             int attributeId = builder.nextAttributeId++;
             builder.attributes.add(new SkillAttribute(attributeId, displayGroupId, attributeHolder, baseValue, levelValue, operation));
