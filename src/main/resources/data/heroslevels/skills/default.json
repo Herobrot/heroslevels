@@ -1,6 +1,6 @@
 {
   "constitution": {
-    "replace": true,
+    "replace": false,
     "id": 0,
     "key": "constitution",
     "level": 20,
@@ -21,7 +21,7 @@
     ]
   },
   "melee": {
-    "replace": true,
+    "replace": false,
     "id": 1,
     "key": "melee",
     "level": 20,
@@ -56,7 +56,7 @@
     ]
   },
   "defense": {
-    "replace": true,
+    "replace": false,
     "id": 2,
     "key": "defense",
     "level": 20,
@@ -81,7 +81,7 @@
     ]
   },
   "archery": {
-    "replace": true,
+    "replace": false,
     "id": 3,
     "key": "archery",
     "level": 20,
@@ -117,7 +117,7 @@
     ]
   },
   "agility": {
-    "replace": true,
+    "replace": false,
     "id": 4,
     "key": "agility",
     "level": 20,
@@ -168,7 +168,7 @@
     ]
   },
   "magic": {
-    "replace": true,
+    "replace": false,
     "id": 5,
     "key": "magic",
     "level": 20,
@@ -189,7 +189,7 @@
     ]
   },
   "alchemy": {
-    "replace": true,
+    "replace": false,
     "id": 6,
     "key": "alchemy",
     "level": 20,
@@ -218,7 +218,7 @@
     ]
   },
   "mining": {
-    "replace": true,
+    "replace": false,
     "id": 7,
     "key": "mining",
     "level": 20,
@@ -245,7 +245,7 @@
     ]
   },
   "smithing": {
-    "replace": true,
+    "replace": false,
     "id": 8,
     "key": "smithing",
     "level": 20,
@@ -281,7 +281,7 @@
     ]
   },
   "farming": {
-    "replace": true,
+    "replace": false,
     "id": 9,
     "key": "farming",
     "level": 20,
@@ -298,7 +298,7 @@
     ]
   },
   "cooking": {
-    "replace": true,
+    "replace": false,
     "id": 10,
     "key": "cooking",
     "level": 20,
@@ -311,7 +311,7 @@
     ]
   },
   "bartering": {
-    "replace": true,
+    "replace": false,
     "id": 11,
     "key": "bartering",
     "level": 20,
@@ -332,7 +332,7 @@
     ]
   },
   "luck": {
-    "replace": true,
+    "replace": false,
     "id": 12,
     "key": "luck",
     "level": 20,
