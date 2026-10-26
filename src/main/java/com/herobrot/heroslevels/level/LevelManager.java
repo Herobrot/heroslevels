@@ -155,7 +155,7 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
     @SuppressWarnings("resource")
     public void addExperience(int experience) {
         if (!isMaxLevel() && this.playerEntity instanceof ServerPlayer serverPlayer) {
-            this.levelProgress += Math.max((float) experience / getNextLevelExperience(), 0);
+            this.levelProgress += Math.max((float) experience / getNextLevelExperience(), 1);
             this.totalLevelExperience = Mth.clamp(this.totalLevelExperience + experience, 0, Integer.MAX_VALUE);
             while (this.levelProgress >= 1.0F && !isMaxLevel()) {
                 float excessXpRatio = this.levelProgress - 1.0F;
