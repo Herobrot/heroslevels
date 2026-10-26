@@ -232,9 +232,8 @@ public class BonusHelper {
     }
 
     // Vida
-    public static void healthRegenBonus(Player player) {
-        double totalHeal = sumBonus(player, "healthRegen", level -> level * ConfigInit.CONFIG.healthRegenBonus);
-        if (totalHeal > 0) player.heal((float) totalHeal);
+    public static float healthRegenBonus(Player player) {
+        return (float) sumBonus(player, "healthRegen", level -> level * ConfigInit.CONFIG.healthRegenBonus);
     }
 
     public static void healthAbsorptionBonus(Player player) {

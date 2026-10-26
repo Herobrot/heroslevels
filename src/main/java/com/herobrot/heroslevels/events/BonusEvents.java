@@ -5,13 +5,16 @@ import com.herobrot.heroslevels.util.BonusHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.level.GameRules;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,17 +23,19 @@ import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.TradeWithVillagerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber(modid = HerosLevels.MOD_ID)
 public class BonusEvents {
 
     @SubscribeEvent
     @SuppressWarnings("resource")
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
-        Player player = event.getEntity();
-        if (!player.level().isClientSide() && player.tickCount % 20 == 0)
-            BonusHelper.healthRegenBonus(player);
+    public static void onLivingHeal(LivingHealEvent event) {
+        if (!(event.getEntity() instanceof Player player) || player.level().isClientSide() || event.getAmount() != 1.0F || player.hasEffect(MobEffects.REGENERATION) || player.level().getDifficulty() == Difficulty.PEACEFUL) return;
+        FoodData foodData = player.getFoodData();
+        if (foodData.getSaturationLevel() > 0.0F || foodData.getFoodLevel() < 18
+            || !player.level().getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION)) return;
+        float bonus = BonusHelper.healthRegenBonus(player);
+        if (bonus > 0.0F) event.setAmount(event.getAmount() + bonus);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -117,12 +122,6 @@ public class BonusEvents {
     public static void onVillagerTrade(TradeWithVillagerEvent event) {
         if (event.getEntity().level() instanceof ServerLevel serverLevel)
             BonusHelper.tradeXpBonus(serverLevel, event.getEntity(), event.getAbstractVillager(),event.getMerchantOffer().getXp());
-    }
-
-    @SubscribeEvent
-    public static void onVillagerTarget(LivingChangeTargetEvent event) {
-        if (event.getEntity() instanceof AbstractVillager && event.getNewAboutToBeSetTarget() instanceof Player player && BonusHelper.merchantImmuneBonus(player))
-            event.setCanceled(true);
     }
 
     @SubscribeEvent
