@@ -41,9 +41,7 @@ public class BonusHelper {
         double total = 0.0;
         for (SkillBonus bonus : LevelManager.BONUSES.getOrDefault(key, List.of())) {
             int level = levelManager.getSkillLevel(bonus.id());
-            if (level >= bonus.level())
-                total += perLevelValue.applyAsDouble(level);
-
+            if (level >= bonus.level()) total += perLevelValue.applyAsDouble(level);
         }
         return total;
     }
@@ -52,8 +50,7 @@ public class BonusHelper {
         LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
         for (SkillBonus bonus : LevelManager.BONUSES.getOrDefault(key, List.of())) {
             int level = levelManager.getSkillLevel(bonus.id());
-            if (level >= bonus.level() && player.getRandom().nextFloat() <= chanceForLevel.applyAsDouble(level))
-                return true;
+            if (level >= bonus.level() && player.getRandom().nextFloat() <= chanceForLevel.applyAsDouble(level)) return true;
         }
         return false;
     }
@@ -70,8 +67,7 @@ public class BonusHelper {
     // Bonus de combate a distancia
     public static void bowBonus(LivingEntity shooter, Projectile projectile) {
         if (!(shooter instanceof Player player) || !(projectile instanceof AbstractArrow arrow)) return;
-        double bonusDamage = sumBonus(player, "bowDamage",
-                level -> ConfigInit.CONFIG.bowDamageBonus * level);
+        double bonusDamage = sumBonus(player, "bowDamage", level -> ConfigInit.CONFIG.bowDamageBonus * level);
         if (bonusDamage > 0) arrow.setBaseDamage(arrow.getBaseDamage() + bonusDamage);
         if (anyChance(player, "bowDoubleDamageChance", level -> ConfigInit.CONFIG.bowDoubleDamageChanceBonus))
             arrow.setBaseDamage(arrow.getBaseDamage() * 2D);
@@ -99,11 +95,9 @@ public class BonusHelper {
     public static MobEffectInstance applyPotionBonuses(@Nullable Player player, MobEffectInstance effectInstance) {
         if (player == null) return effectInstance;
         int amplifierBoost = getPotionAmplifierBoost(player);
-        double durationChance = sumBonus(player, "potionDurationBonus",
-                level -> ConfigInit.CONFIG.potionDurationChanceBonus * level);
+        double durationChance = sumBonus(player, "potionDurationBonus", level -> ConfigInit.CONFIG.potionDurationChanceBonus * level);
         double durationMultiplier = 0.0;
-        if (player.getRandom().nextFloat() <= durationChance)
-            durationMultiplier = durationChance;
+        if (player.getRandom().nextFloat() <= durationChance) durationMultiplier = durationChance;
         if (amplifierBoost == 0 && durationMultiplier == 0.0) return effectInstance;
         int newDuration = (int) (effectInstance.getDuration() * (1.0 + durationMultiplier));
         int newAmplifier = effectInstance.getAmplifier() + amplifierBoost;
@@ -169,8 +163,7 @@ public class BonusHelper {
 
     // Comercio
     public static float priceDiscountBonus(Player player) {
-        if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE))
-            return 1.0f;
+        if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) return 1.0f;
         double totalDiscount = sumBonus(player, "priceDiscount", level -> level * ConfigInit.CONFIG.priceDiscountBonus);
         return (float) Math.max(0.0, 1.0 - totalDiscount);
     }
@@ -201,9 +194,7 @@ public class BonusHelper {
         boolean triggered = anyChance(player, "miningDropChance", level -> level * ConfigInit.CONFIG.miningDropChanceBonus);
         if (triggered) {
             List<ItemStack> list = Block.getDrops(state, serverLevel, pos, null);
-            if (!list.isEmpty()) {
-                Block.popResource(player.level(), pos, list.getFirst().split(1));
-            }
+            if (!list.isEmpty()) Block.popResource(player.level(), pos, list.getFirst().split(1));
         }
     }
 
@@ -215,12 +206,11 @@ public class BonusHelper {
         boolean triggered = anyChance(player, "plantDropChance", level -> level * ConfigInit.CONFIG.plantDropChanceBonus);
         if (triggered) {
             List<ItemStack> list = Block.getDrops(state, serverLevel, pos, null);
-            for (ItemStack itemStack : list) {
+            for (ItemStack itemStack : list)
                 if (itemStack.is(Tags.Items.CROPS)) {
                     Block.popResource(player.level(), pos, itemStack);
                     break;
                 }
-            }
         }
     }
 

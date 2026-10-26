@@ -19,8 +19,7 @@ public class LivingEntityMixin {
     private void heroslevels$restrictArmorSlot(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
         if ((Object) this instanceof Player player && !player.isCreative() && !player.isSpectator()) {
             LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
-            if (!levelManager.hasRequiredItemAndEnchantmentLevel(stack))
-                cir.setReturnValue(EquipmentSlot.MAINHAND);
+            if (!levelManager.hasRequiredItemAndEnchantmentLevel(stack)) cir.setReturnValue(EquipmentSlot.MAINHAND);
         }
     }
 }

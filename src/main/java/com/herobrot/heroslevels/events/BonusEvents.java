@@ -45,31 +45,27 @@ public class BonusEvents {
 
         if (source.getEntity() instanceof Player player) {
             float newDamage = event.getNewDamage();
-            if (BonusHelper.meleeDoubleDamageBonus(player))
-                newDamage *= 2.0F;
-            if (BonusHelper.meleeCriticalAttackChanceBonus(player))
-                newDamage += BonusHelper.meleeCriticalDamageBonus(player);
+            if (BonusHelper.meleeDoubleDamageBonus(player)) newDamage *= 2.0F;
+            if (BonusHelper.meleeCriticalAttackChanceBonus(player)) newDamage += BonusHelper.meleeCriticalDamageBonus(player);
             event.setNewDamage(newDamage);
         }
     }
 
     @SubscribeEvent
     public static void onLivingKnockback(LivingKnockBackEvent event) {
-        if (event.getEntity().getLastAttacker() instanceof Player player
-                && BonusHelper.meleeKnockbackAttackChanceBonus(player))
+        if (event.getEntity().getLastAttacker() instanceof Player player && BonusHelper.meleeKnockbackAttackChanceBonus(player))
             event.setStrength(event.getStrength() * 1.5F);
     }
 
     @SubscribeEvent
     public static void onArrowSpawn(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
-        if (event.getEntity() instanceof AbstractArrow arrow && arrow.getOwner() instanceof Player player)
-            if (player.getMainHandItem().getItem() instanceof BowItem
-                    || player.getOffhandItem().getItem() instanceof BowItem)
+        if (event.getEntity() instanceof AbstractArrow arrow && arrow.getOwner() instanceof Player player) {
+            if (player.getMainHandItem().getItem() instanceof BowItem || player.getOffhandItem().getItem() instanceof BowItem)
                 BonusHelper.bowBonus(player, arrow);
-            else if (player.getMainHandItem().getItem() instanceof CrossbowItem
-                    || player.getOffhandItem().getItem() instanceof CrossbowItem)
+            else if (player.getMainHandItem().getItem() instanceof CrossbowItem || player.getOffhandItem().getItem() instanceof CrossbowItem)
                 BonusHelper.crossbowBonus(player, arrow);
+        }
     }
 
     @SubscribeEvent
@@ -92,8 +88,7 @@ public class BonusEvents {
     @SubscribeEvent
     @SuppressWarnings("resource")
     public static void onAnimalBreed(BabyEntitySpawnEvent event) {
-        if (event.getCausedByPlayer() != null && event.getParentA() instanceof Animal parentA
-                && event.getParentB() instanceof Animal parentB
+        if (event.getCausedByPlayer() != null && event.getParentA() instanceof Animal parentA && event.getParentB() instanceof Animal parentB
                 && event.getCausedByPlayer().level() instanceof ServerLevel serverLevel)
             BonusHelper.breedTwinChanceBonus(serverLevel, event.getCausedByPlayer(), parentA, parentB);
     }
@@ -110,8 +105,7 @@ public class BonusEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     @SuppressWarnings("resource")
     public static void onDeathGrace(LivingDamageEvent.Pre event) {
-        if (event.getEntity() instanceof Player player
-                && !player.level().isClientSide()
+        if (event.getEntity() instanceof Player player && !player.level().isClientSide()
                 && player.getHealth() - event.getNewDamage() <= 0
                 && BonusHelper.deathGraceChanceBonus(player))
             event.setNewDamage(0.0F);
@@ -121,14 +115,12 @@ public class BonusEvents {
     @SuppressWarnings("resource")
     public static void onVillagerTrade(TradeWithVillagerEvent event) {
         if (event.getEntity().level() instanceof ServerLevel serverLevel)
-            BonusHelper.tradeXpBonus(serverLevel, event.getEntity(),
-                    event.getAbstractVillager(),event.getMerchantOffer().getXp());
+            BonusHelper.tradeXpBonus(serverLevel, event.getEntity(), event.getAbstractVillager(),event.getMerchantOffer().getXp());
     }
 
     @SubscribeEvent
     public static void onVillagerTarget(LivingChangeTargetEvent event) {
-        if (event.getEntity() instanceof AbstractVillager
-                && event.getTargetType() instanceof Player player
+        if (event.getEntity() instanceof AbstractVillager && event.getTargetType() instanceof Player player
                 && BonusHelper.merchantImmuneBonus(player))
             event.setCanceled(true);
     }

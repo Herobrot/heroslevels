@@ -11,6 +11,7 @@ import com.herobrot.heroslevels.util.PacketHelper;
 import com.herobrot.heroslevels.init.TagInit;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
@@ -33,26 +34,19 @@ public class ExperienceEvents {
 
     @SubscribeEvent
     public static void onEntitySpawn(FinalizeSpawnEvent event) {
-        if (event.getSpawnType() == MobSpawnType.SPAWNER) {
-            event.getEntity().addTag(SPAWNER_TAG);
-        }
+        if (event.getSpawnType() == MobSpawnType.SPAWNER) event.getEntity().addTag(SPAWNER_TAG);
     }
 
     @SubscribeEvent
     @SuppressWarnings("resource")
     public static void onLivingDeath(LivingDeathEvent event) {
-        if (ConfigInit.CONFIG.disableMobFarms
-                && event.getSource().getEntity() instanceof ServerPlayer killer
-                && event.getEntity() instanceof net.minecraft.world.entity.Mob) {
+        if (ConfigInit.CONFIG.disableMobFarms && event.getSource().getEntity() instanceof ServerPlayer killer && event.getEntity() instanceof Mob) {
             LevelManager killerLevelManager = killer.getData(AttachmentInit.LEVEL_MANAGER);
             killerLevelManager.recordMobKill(new ChunkPos(event.getEntity().blockPosition()));
         }
         if (!(event.getEntity() instanceof ServerPlayer victim)) return;
-        if (!victim.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) ||
-                victim.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY))
-            return;
-        if (ConfigInit.CONFIG.levelRetainPercentage >= 100 && !ConfigInit.CONFIG.resetCurrentXp)
-            return;
+        if (!victim.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) || victim.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) return;
+        if (ConfigInit.CONFIG.levelRetainPercentage >= 100 && !ConfigInit.CONFIG.resetCurrentXp) return;
         LevelManager levelManager = victim.getData(AttachmentInit.LEVEL_MANAGER);
         int xpToDrop = 0;
         int totalXpLost = 0;
@@ -70,8 +64,7 @@ public class ExperienceEvents {
             int retainedLevel = (int) (oldOverallLevel * retainPercent);
 
             Map<Integer, Integer> oldSkillLevels = new HashMap<>();
-            for (Map.Entry<Integer, PlayerSkill> entry : levelManager.getPlayerSkills().entrySet())
-                oldSkillLevels.put(entry.getKey(), entry.getValue().getLevel());
+            for (Map.Entry<Integer, PlayerSkill> entry : levelManager.getPlayerSkills().entrySet()) oldSkillLevels.put(entry.getKey(), entry.getValue().getLevel());
             int oldSkillPoints = levelManager.getSkillPoints();
 
             int levelExperienceLoss = LevelManager.getExperienceBetweenLevels(retainedLevel, oldOverallLevel);
@@ -89,8 +82,7 @@ public class ExperienceEvents {
             levelManager.setSkillPoints(Math.max(0, retainingSkillPoints + remainder));
             levelManager.setOverallLevel(retainedLevel);
         }
-        if (totalXpLost > 0)
-            levelManager.setTotalLevelExperience(Math.max(0, levelManager.getTotalLevelExperience() - totalXpLost));
+        if (totalXpLost > 0) levelManager.setTotalLevelExperience(Math.max(0, levelManager.getTotalLevelExperience() - totalXpLost));
         if (xpToDrop <= 0) return;
         int maxCap = (int) (150 * (ConfigInit.CONFIG.mobXPMultiplier > 0 ? ConfigInit.CONFIG.mobXPMultiplier : 1.0F));
         xpToDrop = Math.min(xpToDrop, maxCap);
@@ -102,23 +94,20 @@ public class ExperienceEvents {
         if (event.getSource().getEntity() instanceof ServerPlayer player)
             if (ConfigInit.CONFIG.disableMobFarms) {
                 LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
-                if (ConfigInit.CONFIG.disableMobFarmsLoot && levelManager.isMobFarmLimitReached())
-                    event.setCanceled(true);
+                if (ConfigInit.CONFIG.disableMobFarmsLoot && levelManager.isMobFarmLimitReached()) event.setCanceled(true);
             }
     }
 
     @SubscribeEvent
     public static void onMobExperienceDrop(LivingExperienceDropEvent event) {
         if (event.getAttackingPlayer() instanceof ServerPlayer player) {
-            if (ConfigInit.CONFIG.disableMobFarms && player.getData(AttachmentInit.LEVEL_MANAGER).isMobFarmLimitReached())
-                return;
+            if (ConfigInit.CONFIG.disableMobFarms && player.getData(AttachmentInit.LEVEL_MANAGER).isMobFarmLimitReached()) return;
             if (event.getEntity().getType().is(TagInit.RESTRICTED_ENTITY_EXPERIENCE_ENTITIES)) return;
             if (!ConfigInit.CONFIG.spawnerMobXP && event.getEntity().getTags().contains(SPAWNER_TAG)) return;
             float multiplier = ConfigInit.CONFIG.mobXPMultiplier;
             if (event.getEntity() instanceof EnderDragon) multiplier = ConfigInit.CONFIG.dragonXPMultiplier;
             int droppedXp = (int) (event.getDroppedExperience() * multiplier);
-            if (droppedXp > 0)
-                LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), event.getEntity().position(), droppedXp);
+            if (droppedXp > 0) LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), event.getEntity().position(), droppedXp);
         }
     }
 
@@ -128,8 +117,7 @@ public class ExperienceEvents {
             float multiplier = LevelHelper.getLevelBasedMultiplier(player);
             int baseVanillaXp = player.getRandom().nextInt(7) + 1;
             int customXp = (int) (baseVanillaXp * ConfigInit.CONFIG.breedingXPMultiplier * multiplier);
-            if (customXp > 0)
-                LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), event.getParentA().position(), customXp);
+            if (customXp > 0) LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), event.getParentA().position(), customXp);
         }
     }
 
@@ -138,8 +126,7 @@ public class ExperienceEvents {
         if (event.getEntity() instanceof ServerPlayer player && ConfigInit.CONFIG.fishingXPMultiplier > 0.0F) {
             float multiplier = LevelHelper.getLevelBasedMultiplier(player);
             int customXp = (int) ((player.getRandom().nextInt(6) + 1) * ConfigInit.CONFIG.fishingXPMultiplier * multiplier);
-            if (customXp > 0)
-                LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), player.position().add(0.0, 0.5D, 0.0), customXp);
+            if (customXp > 0) LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) player.level(), player.position().add(0.0, 0.5D, 0.0), customXp);
         }
     }
 
