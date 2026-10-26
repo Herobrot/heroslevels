@@ -26,9 +26,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 @EventBusSubscriber(modid = HerosLevels.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
 
-    private static int cachedTabListLevel = -1;
-    private static Component cachedTabListName = null;
-
     @SubscribeEvent
     public static void onScreenRenderPost(ScreenEvent.Render.Post event) {
         if (event.getScreen() instanceof AbstractContainerScreen<?> screen) {
@@ -63,11 +60,7 @@ public class ClientEvents {
     public static void onRenderNameTag(RenderNameTagEvent event) {
         if (ConfigInit.CONFIG.showLevel && event.getEntity() instanceof Player player) {
             int level = player.getData(AttachmentInit.LEVEL_MANAGER).getOverallLevel();
-            if (level != cachedTabListLevel || cachedTabListName == null) {
-                cachedTabListLevel = level;
-                cachedTabListName = Component.translatable("text.heroslevels.scoreboard", level, event.getContent());
-            }
-            event.setContent(cachedTabListName);
+            event.setContent(Component.translatable("text.heroslevels.scoreboard", level, event.getContent()));
         }
     }
 
@@ -75,12 +68,8 @@ public class ClientEvents {
     public static void onTabListNameFormat(PlayerEvent.TabListNameFormat event) {
         if (ConfigInit.CONFIG.showLevelList) {
             int level = event.getEntity().getData(AttachmentInit.LEVEL_MANAGER).getOverallLevel();
-            if (level != cachedTabListLevel || cachedTabListName == null) {
-                cachedTabListLevel = level;
-                Component baseName = event.getDisplayName() != null ? event.getDisplayName() : event.getEntity().getName();
-                cachedTabListName = Component.translatable("text.heroslevels.scoreboard", level, baseName);
-            }
-            event.setDisplayName(cachedTabListName);
+            Component baseName = event.getDisplayName() != null ? event.getDisplayName() : event.getEntity().getName();
+            event.setDisplayName(Component.translatable("text.heroslevels.scoreboard", level, baseName));
         }
     }
 
