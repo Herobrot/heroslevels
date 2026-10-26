@@ -2,6 +2,7 @@ package com.herobrot.heroslevels.mixin.entity;
 
 import com.herobrot.heroslevels.util.BonusHelper;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -28,5 +29,13 @@ public abstract class VillagerMixin extends AbstractVillager {
                 int discount = (int) (originalPrice - originalPrice * BonusHelper.priceDiscountBonus(player));
                 tradeOffer.addToSpecialPriceDiff(-discount);
             }
+    }
+
+    @Inject(method = "setLastHurtByMob", at = @At("HEAD"), cancellable = true)
+    private void heroslevels$setLastHurtByMob(LivingEntity attacker, CallbackInfo info) {
+        if (attacker instanceof Player player && BonusHelper.merchantImmuneBonus(player)) {
+            super.setLastHurtByMob(attacker);
+            info.cancel();
+        }
     }
 }
