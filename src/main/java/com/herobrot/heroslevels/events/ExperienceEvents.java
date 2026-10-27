@@ -5,7 +5,7 @@ import com.herobrot.heroslevels.entity.LevelExperienceOrbEntity;
 import com.herobrot.heroslevels.init.AttachmentInit;
 import com.herobrot.heroslevels.init.ConfigInit;
 import com.herobrot.heroslevels.level.LevelManager;
-import com.herobrot.heroslevels.level.PlayerSkill;
+import com.herobrot.heroslevels.util.DeathHelper;
 import com.herobrot.heroslevels.util.LevelHelper;
 import com.herobrot.heroslevels.util.PacketHelper;
 import com.herobrot.heroslevels.init.TagInit;
@@ -14,18 +14,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.GameRules;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @EventBusSubscriber(modid = HerosLevels.MOD_ID)
 public class ExperienceEvents {
@@ -38,55 +33,10 @@ public class ExperienceEvents {
     }
 
     @SubscribeEvent
-    @SuppressWarnings("resource")
     public static void onLivingDeath(LivingDeathEvent event) {
-        if (ConfigInit.CONFIG.disableMobFarms && event.getSource().getEntity() instanceof ServerPlayer killer && event.getEntity() instanceof Mob) {
-            LevelManager killerLevelManager = killer.getData(AttachmentInit.LEVEL_MANAGER);
-            killerLevelManager.recordMobKill(new ChunkPos(event.getEntity().blockPosition()));
-        }
-        if (!(event.getEntity() instanceof ServerPlayer victim)) return;
-        if (!victim.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) || victim.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) return;
-        if (ConfigInit.CONFIG.levelRetainPercentage >= 100 && !ConfigInit.CONFIG.resetCurrentXp) return;
-        LevelManager levelManager = victim.getData(AttachmentInit.LEVEL_MANAGER);
-        int xpToDrop = 0;
-        int totalXpLost = 0;
-
-        if (ConfigInit.CONFIG.resetCurrentXp) {
-            int currentProgressXp = (int) (levelManager.getLevelProgress() * levelManager.getNextLevelExperience());
-            levelManager.setLevelProgress(0.0F);
-            totalXpLost += currentProgressXp;
-            xpToDrop += (int) (currentProgressXp * (ConfigInit.CONFIG.deathXpRecoveryPercent / 100.0F));
-        }
-
-        if (ConfigInit.CONFIG.levelRetainPercentage < 100) {
-            float retainPercent = ConfigInit.CONFIG.levelRetainPercentage / 100.0F;
-            int oldOverallLevel = levelManager.getOverallLevel();
-            int retainedLevel = (int) (oldOverallLevel * retainPercent);
-
-            Map<Integer, Integer> oldSkillLevels = new HashMap<>();
-            for (Map.Entry<Integer, PlayerSkill> entry : levelManager.getPlayerSkills().entrySet()) oldSkillLevels.put(entry.getKey(), entry.getValue().getLevel());
-            int oldSkillPoints = levelManager.getSkillPoints();
-
-            int levelExperienceLoss = LevelManager.getExperienceBetweenLevels(retainedLevel, oldOverallLevel);
-            totalXpLost += levelExperienceLoss;
-            xpToDrop += (int) (levelExperienceLoss * (ConfigInit.CONFIG.deathXpRecoveryPercent / 100.0F));
-            int spentOnSkills = 0;
-            for (Map.Entry<Integer, Integer> entry : oldSkillLevels.entrySet()) {
-                int retainingLevel = (int) (entry.getValue() * retainPercent);
-                levelManager.setSkillLevel(entry.getKey(), retainingLevel);
-                spentOnSkills += retainingLevel;
-            }
-            int retainingSkillPoints = (int) (oldSkillPoints * retainPercent);
-            int totalPointsForLevel = retainedLevel * ConfigInit.CONFIG.pointsPerLevel + ConfigInit.CONFIG.startPoints;
-            int remainder = totalPointsForLevel - spentOnSkills - retainingSkillPoints;
-            levelManager.setSkillPoints(Math.max(0, retainingSkillPoints + remainder));
-            levelManager.setOverallLevel(retainedLevel);
-        }
-        if (totalXpLost > 0) levelManager.setTotalLevelExperience(Math.max(0, levelManager.getTotalLevelExperience() - totalXpLost));
-        if (xpToDrop <= 0) return;
-        int maxCap = (int) (150 * (ConfigInit.CONFIG.mobXPMultiplier > 0 ? ConfigInit.CONFIG.mobXPMultiplier : 1.0F));
-        xpToDrop = Math.min(xpToDrop, maxCap);
-        LevelExperienceOrbEntity.spawnCustomOrb((ServerLevel) victim.level(), victim.position(), xpToDrop);
+        if (ConfigInit.CONFIG.disableMobFarms && event.getSource().getEntity() instanceof ServerPlayer killer && event.getEntity() instanceof Mob)
+            killer.getData(AttachmentInit.LEVEL_MANAGER).recordMobKill(new ChunkPos(event.getEntity().blockPosition()));
+        if (event.getEntity() instanceof ServerPlayer victim) DeathHelper.applyDeathXpLoss(victim);
     }
 
     @SubscribeEvent
@@ -132,24 +82,11 @@ public class ExperienceEvents {
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-        Player original = event.getOriginal();
-        Player newPlayer = event.getEntity();
-        LevelManager oldManager = original.getData(AttachmentInit.LEVEL_MANAGER);
-        LevelManager newManager = newPlayer.getData(AttachmentInit.LEVEL_MANAGER);
-        copyManagerData(oldManager, newManager);
-        if (newPlayer instanceof ServerPlayer serverPlayer) {
+        DeathHelper.copyLevelManagerData(event.getOriginal().getData(AttachmentInit.LEVEL_MANAGER), event.getEntity().getData(AttachmentInit.LEVEL_MANAGER));
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             PacketHelper.syncPlayerSkills(serverPlayer);
             PacketHelper.updateLevels(serverPlayer);
             LevelHelper.applyAllSkills(serverPlayer);
         }
-    }
-
-    private static void copyManagerData(LevelManager oldManager, LevelManager newManager) {
-        newManager.setOverallLevel(oldManager.getOverallLevel());
-        newManager.setSkillPoints(oldManager.getSkillPoints());
-        newManager.setLevelProgress(oldManager.getLevelProgress());
-        newManager.setTotalLevelExperience(oldManager.getTotalLevelExperience());
-        for (Map.Entry<Integer, PlayerSkill> entry : oldManager.getPlayerSkills().entrySet())
-            newManager.setSkillLevel(entry.getKey(), entry.getValue().getLevel());
     }
 }
