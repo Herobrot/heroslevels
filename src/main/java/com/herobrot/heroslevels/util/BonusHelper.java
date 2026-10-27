@@ -1,5 +1,6 @@
 package com.herobrot.heroslevels.util;
 
+import com.herobrot.heroslevels.HerosLevels;
 import com.herobrot.heroslevels.entity.LevelExperienceOrbEntity;
 import com.herobrot.heroslevels.init.AttachmentInit;
 import com.herobrot.heroslevels.init.ConfigInit;
@@ -297,5 +298,11 @@ public class BonusHelper {
     // Thirst Was Reclaimed
     public static double getDrinkIncreasionMultiplier(Player player) {
         return sumBonus(player, "drinkIncreasion", level -> level * ConfigInit.CONFIG.drinkIncreasionBonus);
+    }
+
+    public static float exhaustionThirstReductionBonus(Player player) {
+        double totalReduction = sumBonus(player, "exhaustionThirstReduction", level -> level * ConfigInit.CONFIG.exhaustionThirstReductionBonus);
+        if (totalReduction <= 0) return 1.0f;
+        return (float) Math.max(0.0, 1.0 - totalReduction);
     }
 }

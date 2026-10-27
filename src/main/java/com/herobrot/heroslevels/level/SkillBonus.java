@@ -11,7 +11,7 @@ public record SkillBonus(String key, int id, int level) {
             "plantDropChance", "anvilXpCap", "anvilXpDiscount", "anvilXpChance", "healthRegen",
             "healthAbsorption", "exhaustionReduction", "meleeKockbackAttackChance", "meleeCriticalAttackChance",
             "meleeCriticalAttackDamage", "meleeDoubleAttackDamageChance", "foodIncreasion", "damageReflection",
-            "damageReflectionChance", "evadingDamageChance", "drinkIncreasion");
+            "damageReflectionChance", "evadingDamageChance", "drinkIncreasion", "exhaustionThirstReduction");
 
     // bowDamage: Each level grants +bowDamage on arrow damage
     // bowDoubleDamageChance: Chance to double arrow damage with bow
@@ -47,5 +47,7 @@ public record SkillBonus(String key, int id, int level) {
     // damageReflectionChance: Each level grants %chance to reflect damage
     // evadingDamageChance: Chance to evade incoming damage
     // Compat Bonus for external mods:
+    // [Thirst Was Reclaimed]
     // drinkIncreasion: Each level grants %thirst value when drinking drinks
+    // exhaustionThirstReduction: Each level grants %thirst exhaust reduction
 }

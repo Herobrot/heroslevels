@@ -150,6 +150,8 @@
 
   "text.autoconfig.heroslevels.option.drinkIncreasionBonus": "Bonus de incremento de sed",
   "text.autoconfig.heroslevels.option.drinkIncreasionBonus.@Tooltip": "Bonus id: drinkIncreasion",
+  "text.autoconfig.heroslevels.option.exhaustionThirstReductionBonus": "Bonus de reducción de agotamiento de sed",
+  "text.autoconfig.heroslevels.option.exhaustionThirstReductionBonus.@Tooltip": "Bonus id: exhaustionThirstReduction",
 
   "category.heroslevels.keybind": "Hero's Levels",
   "key.heroslevels.openskillscreen": "Abrir pantalla de habilidades",

@@ -20,6 +20,8 @@ public class HerosLevelsMixinPlugin implements IMixinConfigPlugin {
             return isModLoaded("enchantinginfuser");
         if (mixinClassName.contains("compat.curios"))
             return isModLoaded("curios");
+        if (mixinClassName.contains("compat.twr"))
+            return isModLoaded("thirst");
 
         return true;
     }

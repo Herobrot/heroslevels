@@ -9,6 +9,7 @@
     "block.BrewingStandBlockEntityMixin",
     "compat.enchantinginfuser.EnchantmentComponentMixin",
     "compat.enchantinginfuser.InfuserMenuMixin",
+    "compat.twr.PlayerThirstMixin",
     "entity.AreaEffectCloudMixin",
     "entity.ExperienceBottleEntityMixin",
     "entity.LivingEntityMixin",

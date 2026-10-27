@@ -289,5 +289,7 @@ public class HerosLevelConfig implements ConfigData {
     @ConfigEntry.Category("compat_settings")
     @ConfigEntry.Gui.Tooltip
     public float drinkIncreasionBonus = 0.02F;
-
+    @ConfigEntry.Category("compat_settings")
+    @ConfigEntry.Gui.Tooltip
+    public float exhaustionThirstReductionBonus = 0.02F;
 }
