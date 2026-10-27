@@ -9,9 +9,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -279,10 +281,12 @@ public class BonusHelper {
     // Reflejo de daño
     @SuppressWarnings("resource")
     public static void damageReflectionBonus(Player player, DamageSource source, float amount) {
-        if (source.getEntity() == null || player.level().isClientSide()) return;
+        if (player.level().isClientSide()) return;
+        Entity attacker = source.getEntity();
+        if (attacker == null || attacker == player || source.is(DamageTypes.THORNS)) return;
         if (!anyChance(player, "damageReflectionChance", level -> level * ConfigInit.CONFIG.damageReflectionChanceBonus)) return;
         double totalReflected = sumBonus(player, "damageReflection", level -> level * ConfigInit.CONFIG.damageReflectionBonus);
-        if (totalReflected > 0) source.getEntity().hurt(source, amount * (float) totalReflected);
+        if (totalReflected > 0) attacker.hurt(player.damageSources().thorns(player), amount * (float) totalReflected);
     }
 
     public static boolean evadingDamageBonus(Player player) {
