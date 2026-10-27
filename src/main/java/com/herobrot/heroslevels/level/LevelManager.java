@@ -155,7 +155,7 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
     @SuppressWarnings("resource")
     public void addExperience(int experience) {
         if (!isMaxLevel() && this.playerEntity instanceof ServerPlayer serverPlayer) {
-            this.levelProgress += Math.max((float) experience / getNextLevelExperience(), 1);
+            this.levelProgress += Math.max((float) experience / Math.max(getNextLevelExperience(), 1), 0);
             this.totalLevelExperience = Mth.clamp(this.totalLevelExperience + experience, 0, Integer.MAX_VALUE);
             while (this.levelProgress >= 1.0F && !isMaxLevel()) {
                 float excessXpRatio = this.levelProgress - 1.0F;
@@ -194,13 +194,11 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
     }
 
     public boolean isMaxLevel() {
-        if (ConfigInit.CONFIG.overallMaxLevel > 0)
-            return this.overallLevel >= ConfigInit.CONFIG.overallMaxLevel;
-        else {
-            int maxLevel = 0;
-            for (Skill skill : SKILLS.values()) maxLevel += skill.maxLevel();
-            return this.overallLevel >= maxLevel;
-        }
+        if (ConfigInit.CONFIG.overallMaxLevel > 0) return this.overallLevel >= ConfigInit.CONFIG.overallMaxLevel;
+        if (ConfigInit.CONFIG.allowHigherSkillLevel) return false;
+        int maxLevel = 0;
+        for (Skill skill : SKILLS.values()) maxLevel += skill.maxLevel();
+        return this.overallLevel >= maxLevel;
     }
 
     public boolean hasAvailableLevel() { return this.skillPoints > 0; }
@@ -279,6 +277,7 @@ public class LevelManager implements AttachmentRegistryHelper.INBTSyncable {
     }
 
     // --- Enchantment Restrictions ---
+    @SuppressWarnings("resource")
     public boolean hasRequiredEnchantmentLevel(Holder<Enchantment> enchantment, int level) {
         ResourceLocation id = enchantment.unwrapKey().map(ResourceKey::location).orElse(null);
         if (id == null) return true;
