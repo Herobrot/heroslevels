@@ -307,6 +307,10 @@
       {
         "level": 1,
         "key": "foodIncreasion"
+      },
+      {
+        "level": 1,
+        "key": "drinkIncreasion"
       }
     ]
   },

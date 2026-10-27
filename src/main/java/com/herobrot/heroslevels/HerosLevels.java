@@ -22,6 +22,7 @@ public class HerosLevels {
     public static boolean isEasyMagicLoaded = false;
     public static boolean isEasyAnvilsLoaded = false;
     public static boolean isJadeLoaded = false;
+    public static boolean isThirstLoaded = false;
 
     public HerosLevels(IEventBus modEventBus) {
         ConfigInit.init();
@@ -46,6 +47,7 @@ public class HerosLevels {
         isJadeLoaded = isModLoaded("jade");
         isEasyMagicLoaded = isModLoaded("easymagic");
         isEasyAnvilsLoaded = isModLoaded("easyanvils");
+        isThirstLoaded = isModLoaded("thirst");
     }
 
     public static boolean isModLoaded(String modTarget) { return ModList.get().isLoaded(modTarget); }

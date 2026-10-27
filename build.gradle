@@ -25,6 +25,12 @@ repositories {
     maven { url = "https://maven.su5ed.dev/releases" }
     maven { url = "https://maven.fabricmc.net" }
     maven { url = "https://maven.theillusivec4.top/" }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
     mavenCentral()
     flatDir(
             dirs: 'libs'
@@ -90,6 +96,7 @@ dependencies {
     compileOnly "maven.modrinth:easy-anvils:${easy_anvils_version}"
     compileOnly "maven.modrinth:enchanting-infuser:${enchanting_infuser_version}"
     compileOnly "maven.modrinth:apothic-enchanting:${apothic_enchanting_version}"
+    compileOnly "curse.maven:thirst-was-reclaimed-884742:8893710"
 
     //Test
     //runtimeOnly("com.herobrot.scalingdifficulty:scalingdifficulty:${scalingdifficulty_version}")

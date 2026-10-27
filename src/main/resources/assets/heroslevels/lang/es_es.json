@@ -5,6 +5,7 @@
   "text.autoconfig.heroslevels.category.experience_settings": "Ajustes de Experiencia",
   "text.autoconfig.heroslevels.category.gui_settings": "Ajustes de Interfaz",
   "text.autoconfig.heroslevels.category.progression_settings": "Ajustes de Progresión",
+  "text.autoconfig.heroslevels.category.compat_settings": "Ajustes de Compatibilidad",
 
   "text.autoconfig.heroslevels.option.overallMaxLevel": "Nivel Máximo General",
   "text.autoconfig.heroslevels.option.overallMaxLevel.@Tooltip": "Nivel máximo: 0 = desactivado",
@@ -146,6 +147,9 @@
   "text.autoconfig.heroslevels.option.defaultRestrictions": "RestriccionesPredeterminadas",
   "text.autoconfig.heroslevels.option.defaultSkills": "HabilidadesPredeterminadas",
   "text.autoconfig.heroslevels.option.defaultSkills.@Tooltip": "Recuerda nombrar tu json de datapack de forma diferente al predeterminado",
+
+  "text.autoconfig.heroslevels.option.drinkIncreasionBonus": "Bonus de incremento de sed",
+  "text.autoconfig.heroslevels.option.drinkIncreasionBonus.@Tooltip": "Bonus id: drinkIncreasion",
 
   "category.heroslevels.keybind": "Hero's Levels",
   "key.heroslevels.openskillscreen": "Abrir Pantalla de Habilidades",

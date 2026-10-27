@@ -10,9 +10,7 @@ import static com.herobrot.heroslevels.HerosLevels.isModLoaded;
 public class CompatManager {
 
     public static void registerEvents() {
-        if (isModLoaded("curios"))
-            NeoForge.EVENT_BUS.register(CuriosCompatEvents.class);
-        if (isModLoaded("accessories"))
-            CanEquipCallback.EVENT.register(new AccessoriesCompatEvents());
+        if (isModLoaded("curios")) NeoForge.EVENT_BUS.register(CuriosCompatEvents.class);
+        if (isModLoaded("accessories")) CanEquipCallback.EVENT.register(new AccessoriesCompatEvents());
     }
 }

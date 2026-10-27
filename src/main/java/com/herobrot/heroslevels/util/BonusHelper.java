@@ -292,4 +292,10 @@ public class BonusHelper {
     public static boolean evadingDamageBonus(Player player) {
         return anyChance(player, "evadingDamageChance", level -> ConfigInit.CONFIG.evadingDamageChanceBonus);
     }
+
+    // Compat de mods externos
+    // Thirst Was Reclaimed
+    public static double getDrinkIncreasionMultiplier(Player player) {
+        return sumBonus(player, "drinkIncreasion", level -> level * ConfigInit.CONFIG.drinkIncreasionBonus);
+    }
 }

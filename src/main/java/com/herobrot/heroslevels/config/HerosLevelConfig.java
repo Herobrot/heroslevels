@@ -286,4 +286,8 @@ public class HerosLevelConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean defaultSkills = true;
 
+    @ConfigEntry.Category("compat_settings")
+    @ConfigEntry.Gui.Tooltip
+    public float drinkIncreasionBonus = 0.02F;
+
 }
