@@ -3,6 +3,7 @@ package com.herobrot.heroslevels.screen.widget;
 import com.herobrot.heroslevels.HerosLevels;
 import com.herobrot.heroslevels.init.ConfigInit;
 import com.herobrot.heroslevels.level.LevelManager;
+import com.herobrot.heroslevels.level.Skill;
 import com.herobrot.heroslevels.level.restriction.PlayerRestriction;
 import com.herobrot.heroslevels.registry.EnchantmentRegistry;
 import com.herobrot.heroslevels.registry.HerosEnchantment;
@@ -147,7 +148,9 @@ public class LineWidget {
                     List<Component> tooltip = new ArrayList<>();
                     tooltip.add(tooltipTitle);
                     for (Map.Entry<Integer, Integer> restriction : entry.getValue().skillLevelRestrictions().entrySet()) {
-                        Component skillName = LevelManager.SKILLS.get(restriction.getKey()).getText();
+                        Skill skill = LevelManager.SKILLS.get(restriction.getKey());
+                        if (skill == null) continue;
+                        Component skillName = skill.getText();
                         Component levelStr = Component.translatable("text.heroslevels.gui.short_level", restriction.getValue());
                         tooltip.add(Component.empty().append(skillName).append(" ").append(levelStr));
                     }

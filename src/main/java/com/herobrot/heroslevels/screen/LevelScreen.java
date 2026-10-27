@@ -84,6 +84,9 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     @Override
     protected void init() {
         super.init();
+        this.attributes.clear();
+        this.attributeSprites.clear();
+        this.skillSprites.clear();
         PacketDistributor.sendToServer(new AttributeSyncPacket());
         this.x = (this.width - this.backgroundWidth) / 2;
         this.y = (this.height - this.backgroundHeight) / 2;
@@ -282,8 +285,7 @@ public class LevelScreen extends Screen implements ITabbedScreen {
             }
             this.levelButtons[i].visible = true;
             Skill skill = LevelManager.SKILLS.get(skillId);
-            if (ConfigInit.CONFIG.overallMaxLevel > 0 && this.levelManager.getOverallLevel() >= ConfigInit.CONFIG.overallMaxLevel) this.levelButtons[i].active = false;
-            else if (skill.maxLevel() <= this.levelManager.getPlayerSkills().get(skillId).getLevel()) this.levelButtons[i].active = false;
+            if (skill.maxLevel() <= this.levelManager.getPlayerSkills().get(skillId).getLevel()) this.levelButtons[i].active = false;
             else this.levelButtons[i].active = this.levelManager.getSkillPoints() > 0;
             if (maxedAllSkills) this.levelButtons[i].active = true;
         }

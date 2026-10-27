@@ -32,10 +32,9 @@ public class ServerPayloadHandler {
                 PlayerSkill playerSkill = levelManager.getPlayerSkills().get(id);
                 if (skill == null || playerSkill == null) {
                     HerosLevels.LOGGER.warn("[Hero's Levels-WARN]: StatPacket con id de skill inválido ({}) recibido de {}", id, player.getScoreboardName());
+                    PacketHelper.updateLevels(player);
                     return;
                 }
-                if (ConfigInit.CONFIG.overallMaxLevel > 0 && ConfigInit.CONFIG.overallMaxLevel <= levelManager.getOverallLevel())
-                    return;
                 boolean canExceedMax = false;
                 if (ConfigInit.CONFIG.allowHigherSkillLevel) {
                     canExceedMax = true;
@@ -45,7 +44,10 @@ public class ServerPayloadHandler {
                             break;
                         }
                 }
-                if (!canExceedMax && playerSkill.getLevel() >= skill.maxLevel()) return;
+                if (!canExceedMax && playerSkill.getLevel() >= skill.maxLevel()) {
+                    PacketHelper.updateLevels(player);
+                    return;
+                }
                 int previousLevel = playerSkill.getLevel();
                 int maxAllowed = canExceedMax ? Integer.MAX_VALUE : skill.maxLevel();
                 int newLevel = Math.min(previousLevel + level, maxAllowed);

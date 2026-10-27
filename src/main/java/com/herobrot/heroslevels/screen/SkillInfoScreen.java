@@ -33,6 +33,8 @@ public class SkillInfoScreen extends AbstractSkillPanelScreen {
         this.levelManager = levelManager;
     }
 
+    public int getSkillId() { return this.skill.id(); }
+
     private static Skill requireSkill(int skillId) {
         Skill skill = LevelManager.SKILLS.get(skillId);
         if (skill == null) throw new IllegalStateException("[Hero's Levels-ERROR]: Skill inexistente con id " + skillId);

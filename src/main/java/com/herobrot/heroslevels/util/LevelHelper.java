@@ -18,22 +18,8 @@ import java.util.ArrayList;
 
 public class LevelHelper {
 
-    /**
-     * Limpia modificadores de atributo aplicados previamente por el mod, buscándolos por
-     * prefijo en vez de por índice posicional — necesario porque {@link SkillAttribute#id()}
-     * es un índice autoincremental dependiente del orden/cantidad de atributos declarados en
-     * el datapack, y por lo tanto puede cambiar entre versiones del datapack (reordenar,
-     * insertar o eliminar un atributo desplaza los índices de los demás), dejando
-     * modificadores "huérfanos" que antes nunca se limpiaban.
-     *
-     * @param specificSkillKey si es {@code null}, limpia TODOS los modificadores del mod en
-     *                         el jugador (limpieza global, usar antes de reaplicar todas las
-     *                         skills). Si se provee, limpia solo los de esa skill puntual.
-     */
     public static void clearSkillModifiers(ServerPlayer serverPlayer, @Nullable String specificSkillKey) {
-        String prefix = specificSkillKey != null
-                ? HerosLevels.MOD_ID + ":" + specificSkillKey + "_"
-                : HerosLevels.MOD_ID + ":";
+        String prefix = specificSkillKey != null ? HerosLevels.MOD_ID + ":" + specificSkillKey + "_" : HerosLevels.MOD_ID + ":";
 
         for (Attribute attributeType : BuiltInRegistries.ATTRIBUTE) {
             AttributeInstance instance = serverPlayer.getAttribute(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(attributeType));
@@ -46,13 +32,6 @@ public class LevelHelper {
         }
     }
 
-    /**
-     * Aplica los modificadores vigentes de una skill. Asume que cualquier residuo de
-     * versiones anteriores del datapack ya fue limpiado previamente — ver
-     * {@link #clearSkillModifiers(ServerPlayer, String)}. Los callers que invocan este
-     * método de forma aislada (fuera de {@link #applyAllSkills}) deben llamar primero a
-     * {@code clearSkillModifiers(player, skill.key())} para esa skill puntual.
-     */
     public static void updateSkill(ServerPlayer serverPlayer, Skill skill) {
         LevelManager levelManager = serverPlayer.getData(AttachmentInit.LEVEL_MANAGER);
         for (SkillAttribute skillAttribute : skill.attributes()) {
@@ -79,6 +58,7 @@ public class LevelHelper {
 
     public static void applyAllSkills(ServerPlayer serverPlayer) {
         LevelManager levelManager = serverPlayer.getData(AttachmentInit.LEVEL_MANAGER);
+        levelManager.getPlayerSkills().keySet().retainAll(LevelManager.SKILLS.keySet());
         clearSkillModifiers(serverPlayer, null);
         AttributeSupplier playerDefaults = DefaultAttributes.getSupplier(EntityType.PLAYER);
 

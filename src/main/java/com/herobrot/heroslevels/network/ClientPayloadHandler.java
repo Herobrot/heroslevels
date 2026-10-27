@@ -9,7 +9,9 @@ import com.herobrot.heroslevels.level.restriction.PlayerRestriction;
 import com.herobrot.heroslevels.network.packet.*;
 import com.herobrot.heroslevels.registry.EnchantmentRegistry;
 import com.herobrot.heroslevels.registry.HerosEnchantment;
+import com.herobrot.heroslevels.screen.AbstractSkillPanelScreen;
 import com.herobrot.heroslevels.screen.LevelScreen;
+import com.herobrot.heroslevels.screen.SkillInfoScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -35,24 +37,27 @@ public class ClientPayloadHandler {
 
     public static void handleSkillSync(SkillSyncPacket payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            Player player = context.player();
-            LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
-            LevelManager.SKILLS.clear();
-            for (int i = 0; i < payload.skillIds().size(); i++) {
-                int skillId = payload.skillIds().get(i);
-                Skill skill = new Skill(
-                        skillId,
-                        payload.skillKeys().get(i),
-                        payload.skillMaxLevels().get(i),
-                        payload.skillAttributes().get(i).skillAttributes()
-                );
-                LevelManager.SKILLS.put(skillId, skill);
-                levelManager.getPlayerSkills().computeIfAbsent(skillId, id -> new PlayerSkill(id, 0));
+            if (!Minecraft.getInstance().isSingleplayer()) {
+                Player player = context.player();
+                LevelManager levelManager = player.getData(AttachmentInit.LEVEL_MANAGER);
+                levelManager.getPlayerSkills().keySet().retainAll(LevelManager.SKILLS.keySet());
+                LevelManager.SKILLS.clear();
+                for (int i = 0; i < payload.skillIds().size(); i++) {
+                    int skillId = payload.skillIds().get(i);
+                    Skill skill = new Skill(
+                            skillId,
+                            payload.skillKeys().get(i),
+                            payload.skillMaxLevels().get(i),
+                            payload.skillAttributes().get(i).skillAttributes()
+                    );
+                    LevelManager.SKILLS.put(skillId, skill);
+                    levelManager.getPlayerSkills().computeIfAbsent(skillId, id -> new PlayerSkill(id, 0));
+                }
+                LevelManager.BONUSES.clear();
+                for (SkillBonus bonus : payload.skillBonuses().skillBonuses())
+                    LevelManager.BONUSES.computeIfAbsent(bonus.key(), k -> new ArrayList<>()).add(bonus);
+                notifyLevelScreenDirty();
             }
-            LevelManager.BONUSES.clear();
-            for (SkillBonus bonus : payload.skillBonuses().skillBonuses())
-                LevelManager.BONUSES.computeIfAbsent(bonus.key(), k -> new ArrayList<>()).add(bonus);
-            notifyLevelScreenDirty();
         });
     }
 
@@ -90,6 +95,7 @@ public class ClientPayloadHandler {
     @SuppressWarnings("resource")
     public static void handleEnchantment(EnchantmentPacket payload, IPayloadContext context) {
         context.enqueueWork(() -> {
+            if (Minecraft.getInstance().isSingleplayer()) return;
             EnchantmentRegistry.ENCHANTMENTS.clear();
             EnchantmentRegistry.INDEX_ENCHANTMENTS.clear();
             RegistryAccess registryAccess = context.player().level().registryAccess();
@@ -108,6 +114,7 @@ public class ClientPayloadHandler {
 
     public static void handleRestrictionsSync(RestrictionsSyncPacket payload, IPayloadContext context) {
         context.enqueueWork(() -> {
+            if (Minecraft.getInstance().isSingleplayer()) { refreshOpenScreens(); return; }
             LevelManager.BLOCK_RESTRICTIONS.clear();
             LevelManager.CRAFTING_RESTRICTIONS.clear();
             LevelManager.ENTITY_RESTRICTIONS.clear();
@@ -126,7 +133,7 @@ public class ClientPayloadHandler {
                 if (enchantmentId == -1) continue;
                 LevelManager.ENCHANTMENT_RESTRICTIONS.put(enchantmentId, new PlayerRestriction(enchantmentId, toSkillMap(record.skills())));
             }
-            notifyLevelScreenDirty();
+            refreshOpenScreens();
         });
     }
 
@@ -144,5 +151,15 @@ public class ClientPayloadHandler {
         for (RestrictionsSyncPacket.SkillLevelRecord skill : skills)
             skillLevels.put(skill.skillId(), skill.level());
         return skillLevels;
+    }
+
+    private static void refreshOpenScreens() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.screen instanceof SkillInfoScreen skillInfo && !LevelManager.SKILLS.containsKey(skillInfo.getSkillId())) {
+            mc.setScreen(new LevelScreen());
+            return;
+        }
+        if (mc.screen instanceof LevelScreen || mc.screen instanceof AbstractSkillPanelScreen)
+            mc.screen.resize(mc, mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight());
     }
 }
