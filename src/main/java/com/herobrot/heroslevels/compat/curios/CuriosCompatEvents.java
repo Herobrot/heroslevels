@@ -1,5 +1,6 @@
 package com.herobrot.heroslevels.compat.curios;
 
+import com.herobrot.heroslevels.HerosLevels;
 import com.herobrot.heroslevels.init.AttachmentInit;
 import com.herobrot.heroslevels.level.LevelManager;
 import net.minecraft.world.entity.player.Player;
@@ -12,6 +13,7 @@ public class CuriosCompatEvents {
 
     @SubscribeEvent
     public static void onCurioEquip(CurioCanEquipEvent event) {
+        if (!HerosLevels.isCuriosLoaded) return;
         ItemStack stack = event.getStack();
         if (stack.isEmpty()) return;
         if (event.getEntity() instanceof Player player) {
