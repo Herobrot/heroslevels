@@ -180,10 +180,6 @@
     "attributes": [],
     "bonus": [
       {
-        "level": 20,
-        "key": "potionEffectChance"
-      },
-      {
         "level": 10,
         "key": "healthAbsorption"
       },

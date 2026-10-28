@@ -730,8 +730,6 @@
       "minecraft:cracked_stone_bricks",
       "minecraft:cut_red_sandstone",
       "minecraft:cut_red_sandstone_slab",
-      "minecraft:cut_stone",
-      "minecraft:cut_stone_slab",
       "minecraft:cyan_terracotta",
       "minecraft:dripstone_block",
       "minecraft:pointed_dripstone",
@@ -854,11 +852,7 @@
     "skills": {
       "mining": 3
     },
-    "items": [
-      "minecraft:copper_axe",
-      "minecraft:copper_pickaxe",
-      "minecraft:copper_shovel"
-    ],
+    "items": [],
     "mining": [
       "minecraft:chiseled_deepslate",
       "minecraft:cobbled_deepslate_slab",
@@ -1202,14 +1196,14 @@
       "minecraft:iron_ingot",
       "minecraft:gold_ingot",
       "minecraft:raw_gold",
-      "minecraft:gold_axe",
-      "minecraft:gold_boots",
-      "minecraft:gold_chestplate",
-      "minecraft:gold_helmet",
-      "minecraft:gold_hoe",
-      "minecraft:gold_leggings",
-      "minecraft:gold_pickaxe",
-      "minecraft:gold_shovel",
+      "minecraft:golden_axe",
+      "minecraft:golden_boots",
+      "minecraft:golden_chestplate",
+      "minecraft:golden_helmet",
+      "minecraft:golden_hoe",
+      "minecraft:golden_leggings",
+      "minecraft:golden_pickaxe",
+      "minecraft:golden_shovel",
       "minecraft:golden_sword",
       "minecraft:anvil",
       "minecraft:iron_axe",
@@ -1296,7 +1290,6 @@
       "farming": 3
     },
     "items": [
-      "minecraft:copper_hoe",
       "minecraft:brush"
     ],
     "blocks": [
