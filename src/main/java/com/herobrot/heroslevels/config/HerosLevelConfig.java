@@ -286,10 +286,14 @@ public class HerosLevelConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean defaultSkills = true;
 
+    @ConfigEntry.Gui.CollapsibleObject
     @ConfigEntry.Category("compat_settings")
-    @ConfigEntry.Gui.Tooltip
-    public float drinkIncreasionBonus = 0.02F;
-    @ConfigEntry.Category("compat_settings")
-    @ConfigEntry.Gui.Tooltip
-    public float exhaustionThirstReductionBonus = 0.02F;
+    public ThirstWasReclaimedSettings thirstWasReclaimedSettings = new ThirstWasReclaimedSettings();
+
+    public static class ThirstWasReclaimedSettings {
+        @ConfigEntry.Gui.Tooltip
+        public float drinkIncreasionBonus = 0.02F;
+        @ConfigEntry.Gui.Tooltip
+        public float exhaustionThirstReductionBonus = 0.02F;
+    }
 }

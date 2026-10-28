@@ -148,10 +148,11 @@
   "text.autoconfig.heroslevels.option.defaultSkills": "DefaultSkills",
   "text.autoconfig.heroslevels.option.defaultSkills.@Tooltip": "Remember to name your datapack json differently than default",
 
-  "text.autoconfig.heroslevels.option.drinkIncreasionBonus": "Thirst Increasion Bonus",
-  "text.autoconfig.heroslevels.option.drinkIncreasionBonus.@Tooltip": "Bonus id: drinkIncreasion",
-  "text.autoconfig.heroslevels.option.exhaustionThirstReductionBonus": "Exhaustion Thirst Reduction Bonus",
-  "text.autoconfig.heroslevels.option.exhaustionThirstReductionBonus.@Tooltip": "Bonus id: exhaustionThirstReduction",
+  "text.autoconfig.heroslevels.option.thirstWasReclaimedSettings": "Thirst Was Reclaimed Settings",
+  "text.autoconfig.heroslevels.option.thirstWasReclaimedSettings.drinkIncreasionBonus": "Thirst Increasion Bonus",
+  "text.autoconfig.heroslevels.option.thirstWasReclaimedSettings.drinkIncreasionBonus.@Tooltip": "Bonus id: drinkIncreasion",
+  "text.autoconfig.heroslevels.option.thirstWasReclaimedSettings.exhaustionThirstReductionBonus": "Exhaustion Thirst Reduction Bonus",
+  "text.autoconfig.heroslevels.option.thirstWasReclaimedSettings.exhaustionThirstReductionBonus.@Tooltip": "Bonus id: exhaustionThirstReduction",
 
   "category.heroslevels.keybind": "Hero's Levels",
   "key.heroslevels.openskillscreen": "Open Skill Screen",
