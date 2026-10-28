@@ -24,15 +24,28 @@ jobs:
           TAG="${GITHUB_REF#refs/tags/}"
           VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
           MC_VERSION=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)
-          EXPECTED_TAG="${VERSION}+${MC_VERSION}"
+          RELEASE_TYPE=$(grep '^release_type=' gradle.properties | cut -d'=' -f2)
+
+          if [[ ! "$RELEASE_TYPE" =~ ^(release|beta|alpha)$ ]]; then
+            echo "::error::release_type invalido: '$RELEASE_TYPE' (release|beta|alpha)."
+            exit 1
+          fi
+
+          if [[ "$RELEASE_TYPE" == "release" ]]; then
+            SUFFIX=""
+          else
+            SUFFIX="-${RELEASE_TYPE^^}"
+          fi
+          EXPECTED_TAG="${VERSION}+${MC_VERSION}${SUFFIX}"
 
           echo "Tag detectado: $TAG"
           echo "mod_version en gradle.properties: $VERSION"
+          echo "release_type en gradle.properties: $RELEASE_TYPE"
           echo "Tag esperado según gradle.properties: $EXPECTED_TAG"
 
           if [[ "$TAG" != "$EXPECTED_TAG" ]]; then
-            echo "::error::El tag '$TAG' no coincide con el mod_version del commit ($EXPECTED_TAG)."
-            echo "::error::Probablemente el tag apunta a un commit distinto al de 'release ${VERSION}'."
+            echo "::error::El tag '$TAG' no coincide con el tag esperado ($EXPECTED_TAG)."
+            echo "::error::Probablemente el tag apunta a un commit distinto al de 'release ${VERSION}', o el sufijo no corresponde al release_type."
             exit 1
           fi
 
@@ -87,4 +100,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew publishMods -Prelease_type=release --no-configuration-cache
+        run: ./gradlew publishMods -Pbuild.release=true -PgitCommit=${{ github.sha }} --no-configuration-cache

@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.147'
     id 'idea'
     id "me.modmuss50.mod-publish-plugin" version "2.1.1"
 }
@@ -9,7 +9,12 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = "${mod_version}+${minecraft_version}"
+def releaseType = release_type.toString()
+if (!(releaseType in ['release', 'beta', 'alpha']))
+    throw new GradleException("release_type invalido: '$releaseType' (release|beta|alpha)")
+def typeSuffix = releaseType == 'release' ? '' : "-${releaseType.toUpperCase()}"
+
+version = "${mod_version}+${minecraft_version}${typeSuffix}"
 group = mod_group_id
 
 sourceSets.main.resources {
@@ -129,7 +134,7 @@ tasks.named('processResources', ProcessResources) {
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
-            mod_version            : mod_version
+            mod_version            : version
     ]
     inputs.properties(replaceProperties)
     filesMatching('META-INF/neoforge.mods.toml') {
@@ -171,38 +176,60 @@ def getChangelogText() {
     }
     return text.trim()
 }
-publishMods {
-    file = jar.archiveFile
-    changelog = getChangelogText()
-    type = STABLE
-    modLoaders.add("neoforge")
-    curseforge {
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = curseforge_id
-        minecraftVersions.add(minecraft_version)
-        javaVersions.add(JavaVersion.VERSION_21)
-        client = true
-        server = true
-        requires("cloth-config")
-        requires("heros-lib")
-        changelogType = "markdown"
-        displayName = jar.archiveFileName.get()
+
+def gitCommit = providers.gradleProperty('gitCommit')
+        .orElse(providers.exec {
+            commandLine('git', 'rev-parse', '--short', 'HEAD')
+        }.standardOutput.asText.map { it.trim() })
+
+def modVersion = version.toString()
+def modName = mod_name.toString()
+
+if (providers.gradleProperty('build.release').isPresent()) {
+    publishMods {
+        dryRun = providers.gradleProperty('build.release.dryrun').isPresent()
+
+        file = jar.archiveFile
+        changelog = getChangelogText()
+        type = releaseType == 'alpha' ? ALPHA : releaseType == 'beta' ? BETA : STABLE
+        modLoaders.add("neoforge")
+
+        curseforge {
+            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+            projectId = curseforge_id
+            minecraftVersions.add(minecraft_version)
+            javaVersions.add(JavaVersion.VERSION_21)
+            client = true
+            server = true
+            requires("cloth-config")
+            requires("heros-lib")
+            changelogType = "markdown"
+            displayName = "${modName} ${modVersion}"
+            version = modVersion
+        }
+        modrinth {
+            accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+            projectId = modrinth_id
+            minecraftVersions.add(minecraft_version)
+            requires("cloth-config")
+            requires("heros-lib")
+            environment = CLIENT_AND_SERVER
+            displayName = "${modName} ${modVersion}"
+            version = modVersion
+        }
+        github {
+            accessToken = providers.environmentVariable("GITHUB_TOKEN")
+            repository = "Herobrot/${mod_id}"
+            tagName = modVersion
+            displayName = "${modName} ${modVersion}"
+            commitish = gitCommit
+            version = modVersion
+            additionalFiles.from(tasks.named("sourcesJar"))
+        }
     }
-    modrinth {
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = modrinth_id
-        minecraftVersions.add(minecraft_version)
-        requires("cloth-config")
-        requires("heros-lib")
-        environment = CLIENT_AND_SERVER
-        version = "${mod_version}+${minecraft_version}"
-    }
-    github {
-        accessToken = providers.environmentVariable("GITHUB_TOKEN")
-        repository = "Herobrot/${mod_id}"
-        tagName="${mod_version}+${minecraft_version}"
-        displayName = "${mod_name} ${mod_version}+${minecraft_version}"
-        commitish = "1.21"
-        additionalFiles.from(tasks.named("sourcesJar"))
-    }
+} else if (gradle.startParameter.taskNames.any { it.endsWith('publishMods') })
+    throw new GradleException("publishMods requiere -Pbuild.release=true (usa -Pbuild.release.dryrun=true para prueba)")
+
+tasks.named('publishMods') {
+    outputs.upToDateWhen { false }
 }
