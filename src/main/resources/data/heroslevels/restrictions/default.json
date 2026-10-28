@@ -1,14 +1,4 @@
 {
-  "template_XX": {
-    "replace": false,
-    "skills": {},
-    "blocks": [],
-    "crafting": [],
-    "entities": [],
-    "items": [],
-    "brewing": [],
-    "enchantments": {}
-  },
   "default_constitution_8": {
     "replace": false,
     "skills": {
