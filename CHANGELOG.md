@@ -1,3 +1,24 @@
+# 1.1.0
+## Added:
+- Added Thirst Was Reclaimed compat
+  - Added 'exhaustionThirstReduction' bonus
+  - Added 'drinkIncreasion' bonus
+- Added a dynamic bonus when loading other mods that are compatible. So it default applies the skill with compatible attribute/bonus
+- Added a new config for mods compat
+## Fixed:
+- Fixed bad name render on scoreboard and player name
+- Fixed merchantInmune not working
+- Fixed bypassing kill commands damage on evadingDamageBonus
+- Fixed crash with conflicting ids<->keys, should now warn an error when pointing to the wrong id/key to an already created skill
+- Fixed a bug that prevented 'allowHigherSkillLevel' to work intended
+- Fixed edge cases bugs for screen and networking
+- Fixed bad default ids (gold tools, copper tools and some stones)
+## Changed
+- Changed healthRegen to boost natural regeneration and not always regenerating
+- Changed the default skills 'replace:true' to 'false'
+- Updated sprites
+- Attempt to optimize the code
+---
 # 1.0.4
 ## Added:
 - &nbsp;
