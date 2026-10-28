@@ -1,9 +1,6 @@
 package com.herobrot.heroslevels.data;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.herobrot.heroslevels.HerosLevels;
 import com.herobrot.heroslevels.init.ConfigInit;
 import com.herobrot.heroslevels.level.LevelManager;
@@ -117,9 +114,11 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
             loadBonuses(skillJsonObject.getAsJsonArray("bonus"), identification, mapKey);
     }
 
-    private static void loadAttributes(com.google.gson.JsonArray attributesArray, SkillBuilder builder, int identification, String mapKey) {
+    private static void loadAttributes(JsonArray attributesArray, SkillBuilder builder, int identification, String mapKey) {
         for (JsonElement attributeElement : attributesArray) {
             JsonObject attributeJsonObject = attributeElement.getAsJsonObject();
+            String modId = attributeJsonObject.has("mod") ? attributeJsonObject.get("mod").getAsString() : null;
+            if (modId != null && !HerosLevels.isModLoaded(modId)) continue;
             ResourceLocation attrTypeId = ResourceLocation.parse(attributeJsonObject.get("type").getAsString());
             if (builder.loadedAttributeTypes.contains(attrTypeId)) {
                 LOGGER.warn("[Hero's Levels-WARN]: La skill {} (id {}) re-declara el atributo {} que ya está definido. Se conserva la primera definición y se omite esta.",
@@ -144,9 +143,11 @@ public class SkillLoader extends SimpleJsonResourceReloadListener {
         }
     }
 
-    private static void loadBonuses(com.google.gson.JsonArray bonusArray, int identification, String mapKey) {
+    private static void loadBonuses(JsonArray bonusArray, int identification, String mapKey) {
         for (JsonElement bonusElement : bonusArray) {
             JsonObject bonusJsonObject = bonusElement.getAsJsonObject();
+            String modId = bonusJsonObject.has("mod") ? bonusJsonObject.get("mod").getAsString() : null;
+            if (modId != null && !HerosLevels.isModLoaded(modId)) continue;
             String bonusKey = bonusJsonObject.get("key").getAsString();
             int bonusLevel = bonusJsonObject.get("level").getAsInt();
             if (!SkillBonus.BONUS_KEYS.contains(bonusKey)) {

@@ -242,6 +242,9 @@
   "bonus.heroslevels.evadingDamageChance.0": "Evading dmg chance %s",
   "bonus.heroslevels.meleeCriticalAttackDamage.0": "Melee critical attack dmg",
 
+  "bonus.heroslevels.exhaustionThirstReduction.0": "Reduction in exhaustion from thirst %s",
+  "bonus.heroslevels.drinkIncreasion.0": "Extra hydration when drinking %s",
+
   "restriction.heroslevels.crafting": "Crafting",
   "restriction.heroslevels.mining": "Mining",
   "restriction.heroslevels.item_usage": "Item Usage",

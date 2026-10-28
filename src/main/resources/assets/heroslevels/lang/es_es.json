@@ -242,6 +242,9 @@
   "bonus.heroslevels.evadingDamageChance.0": "Probabilidad de evasión de daño %s",
   "bonus.heroslevels.meleeCriticalAttackDamage.0": "Daño de golpe crítico cuerpo a cuerpo.",
 
+  "bonus.heroslevels.drinkIncreasion.0": "Hidratación extra al beber",
+  "bonus.heroslevels.exhaustionThirstReduction.0": "Reducción del agotamiento por sed",
+
   "restriction.heroslevels.crafting": "Crafteo",
   "restriction.heroslevels.mining": "Minería",
   "restriction.heroslevels.item_usage": "Uso de objetos",

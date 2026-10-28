@@ -16,7 +16,8 @@
     "bonus": [
       {
         "level": 1,
-        "key": "exhaustionThirstReduction"
+        "key": "exhaustionThirstReduction",
+        "mod": "thirst"
       },
       {
         "level": 10,
@@ -314,7 +315,8 @@
       },
       {
         "level": 1,
-        "key": "drinkIncreasion"
+        "key": "drinkIncreasion",
+        "mod": "thirst"
       }
     ]
   },
