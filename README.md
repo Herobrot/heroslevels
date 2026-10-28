@@ -16,15 +16,18 @@ Hero's Levels is a mod built for [NeoForge Loader](https://neoforged.net/) and i
 The mod is fully data-driven. You can create custom skills, bonuses, and restrictions using datapacks placed in the `data/heroslevels/` directory.
 
 ### Skills
-A skill requires a unique id, a key (used for translations and texture paths), and a maximum level.
+A skill requires a unique id, a key (used for translations and icon), and a maximum level.
+
 The key value is extremely important as it references the texture path used for the skill icon in the GUI.
-The texture must be located at: `assets/heroslevels/textures/gui/sprites/<key>.png` 
+
+The texture must be located at: `assets/heroslevels/textures/gui/sprites/<key>.png`
+
 Additionally, the key is used to generate a translation key for the skill name: `skill.heroslevels.<key>`
 
 ```json
 {
   "constitution": {  
-    "replace": true,
+    "replace": false,
     "id": 0,
     "key": "constitution",
     "level": 20,
@@ -39,6 +42,11 @@ Additionally, the key is used to generate a translation key for the skill name: 
     ],
     "bonus": [
       {
+        "level": 1,
+        "key": "exhaustionThirstReduction",
+        "mod": "thirst"
+      },
+      {
         "level": 10,
         "key": "healthRegen"
       }  
@@ -46,8 +54,25 @@ Additionally, the key is used to generate a translation key for the skill name: 
   }
 }
 ```
+- `"replace": false`: It create the skill, if there's already skill created, then merge the attributes and/or bonus.
+- `"replace": true`: It creates the skill, if there's already skill created, then overrides that skill and have full priority that object.
+- `"id"`: The id and the order of that skill in the Level Screen. If you want to change the order from the default skills, consider to turn to `false` the config `defaultSkills`
+- `"key"`: The name of the skill.
+- `"level":` The max level of that skill.
+- `"attributes":` An array of objects for each attribute. It could also be not add no one `[]`.
+  - `"id"`: (Optional) Same logic like the id for skills, but for attributes.
+  - `"type"`: The attribute type in Minecraft. You can check in-game what you have with the auto-completion command `/attribute @p <attribute>`
+  - `"base"`: (Optional) The base value it will spawn the player with that attribute. Consider that if replacing another skill, if that adds a base to the attribute you want to change, you should replace the skill for not conflict.
+  - `"operation"`: The operation for Minecraft modifying attributes. It accepts [`ADD_VALUE`/`ADD_MULTIPLIED_BASE`/`ADD_MULTIPLIED_TOTAL`].
+  - `"value"`: The value it adds/multiplying for each new level.
+- `"bonus":` An array of objects for each bonus. Same for the attributes `[]`.
+  - `"level"`: The minimum level to get the bonus. Each new level after that boost the bonus (not for all, but the majority yes).
+  - `"key"`: The id of the bonus to apply to the skill.
+  - `"mod"`: (Optional) This is **exclusive** for this version of LevelZ port. It applies the bonus only if the id of the mod is loaded in the game. 
 ### Attributes
-You can use any registered attribute in the game, as long as the type matches the correct attribute ID. This includes attributes added by other mods.
+You can use any registered attribute in the game, as long as the type matches the correct attribute ID.
+This includes attributes added by other mods.
+
 Examples of valid attribute types:
 ```
 generic.max_health
@@ -89,6 +114,9 @@ Bonuses are special effects that unlock when a player reaches a specific level i
 - `damageReflection`: Each level grants %damage reflection
 - `damageReflectionChance`: Each level grants %chance to reflect damage
 - `evadingDamageChance`: Chance to evade incoming damage
+- **[Thirst was Reclaimed compat]**
+  - `drinkIncreasion`: Each level grants %thirst value when drinking drinks
+  - `exhaustionThirstReduction`: Each level grants %thirst exhaust reduction
 
 ### Restrictions
 Restrictions prevent players from using items, breaking blocks, or crafting until they reach the required skill level.
