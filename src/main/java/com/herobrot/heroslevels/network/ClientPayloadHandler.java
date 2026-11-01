@@ -156,7 +156,7 @@ public class ClientPayloadHandler {
     private static void refreshOpenScreens() {
         Minecraft mc = Minecraft.getInstance();
         if (mc.screen instanceof SkillInfoScreen skillInfo && !LevelManager.SKILLS.containsKey(skillInfo.getSkillId())) {
-            mc.setScreen(new LevelScreen());
+            LevelScreen.open();
             return;
         }
         if (mc.screen instanceof LevelScreen || mc.screen instanceof AbstractSkillPanelScreen)

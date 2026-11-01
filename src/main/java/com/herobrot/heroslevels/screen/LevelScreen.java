@@ -81,6 +81,8 @@ public class LevelScreen extends Screen implements ITabbedScreen {
     @Override
     public Class<? extends Screen> heroslib$getParentScreenClass() { return InventoryScreen.class; }
 
+    public static void open() { Minecraft.getInstance().setScreen(new LevelScreen()); }
+
     @Override
     protected void init() {
         super.init();
