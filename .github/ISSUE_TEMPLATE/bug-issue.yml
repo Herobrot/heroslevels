@@ -17,7 +17,7 @@ body:
           required: true
         - label: I have **NeoForge** for Minecraft 1.21.1 correctly installed
           required: true
-        - label: I checked the [README.md](https://github.com/Herobrot/tieredneo/blob/1.21/README.md) and found no answer to my issue
+        - label: I checked the [README.md](https://github.com/Herobrot/heroslevels/blob/1.21/README.md) and found no answer to my issue
           required: true
 
   - type: textarea
