@@ -1,3 +1,15 @@
+# 1.1.1
+# IMPORTANT
+Starting with this update, I will no longer be adding extra features or compatibilities.
+This is because Globox, the original modder, plans to update to NeoForge, but specifically for version 26.3. 
+However, for this and other mods ported of mine, I will continue to provide support, though only in the form of maintenance
+and fixing critical bugs.
+## What's next?
+I’m working on personal mods that are completely unrelated to Globox. At most, they might be inspired
+by his mods but expect something entirely new from me. ^^
+## Fixed:
+- Fixed a crash when loading the mod on a dedicated server
+---
 # 1.1.0
 ## Added:
 - Added Thirst Was Reclaimed compat
