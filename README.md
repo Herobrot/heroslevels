@@ -3,6 +3,9 @@
 [![cloth-config-api](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/cloth-config-api_64h.png)](https://modrinth.com/mod/cloth-config)
 [![Requires-Heros-Lib](https://cdn.modrinth.com/data/cached_images/3b6545deb075073916f42e8175145fa76de4002b.png)](https://modrinth.com/mod/heros-lib)
 [![available-neoforge](https://cdn.modrinth.com/data/cached_images/0ca42fd3f745230049fd9f62d8520af33fef9dda.png)](https://neoforged.net/)
+# IMPORTANT
+This mod and other ports of mine is gonna be **maintenance only**. This is because the original modder, [Globox](https://modrinth.com/user/Globox1997), is working on porting his mods to NeoForge.
+
 # Hero's Levels
 Hero's Levels adds a system of levels and restrictions that are unlocked as the player improves their skills.
 
